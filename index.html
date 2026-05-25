@@ -1,0 +1,2308 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MenstruAcción - Mtra. Susy Pedroza</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome para Iconos lindos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Fonts para tipografía tierna y legible -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <!-- LIBRERÍA HTML2PDF PARA DESCARGAS EN PDF EXACTAS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <script>
+    window.tailwind = window.tailwind || {};
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            pastelPink: {
+              100: '#FFF0F1',
+              200: '#FFD6D9',
+              300: '#FFAEB5',
+              400: '#FF8691',
+              500: '#F582A8', // Rosa principal de MenstruAcción
+              600: '#D95C84',
+            },
+            slate: {
+              50:  '#FAF6F7',
+              100: '#F5ECEE',
+              200: '#EADCE0',
+              300: '#DAC2C8',
+              400: '#C29EAA',
+              500: '#A47986',
+              600: '#865A68',
+              700: '#3D2A2E', // Berenjena legible (texto general)
+              800: '#2E1E21',
+              900: '#1F1214',
+            },
+            pastelLila: {
+              100: '#F5F0FB',
+              200: '#E8DFF5',
+              300: '#D1C2EB',
+              400: '#B8A4E1',
+              500: '#9E86D7',
+            },
+            pastelMint: {
+              100: '#F0FDFB',
+              200: '#DDF9F6',
+              300: '#B3F0E9',
+              500: '#64DFC2',
+            },
+            pastelPeach: {
+              100: '#FFF6F0',
+              200: '#FCEADE',
+              300: '#FCD5BE',
+              500: '#F39E79',
+            },
+            pastelYellow: {
+              100: '#FFFDF0',
+              200: '#FFF9D6',
+              300: '#FFF3A8',
+              500: '#F1D460',
+            }
+          },
+          fontFamily: {
+            cozy: ['Quicksand', 'Nunito', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap');
+    body { font-family: 'Quicksand', sans-serif; }
+
+    /* Clases para Cartas de Memorama 3D */
+    .perspective-1000 { perspective: 1000px; }
+    .transform-style-preserve-3d { transform-style: preserve-3d; }
+    .backface-hidden { -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+    .rotate-y-180 { transform: rotateY(180deg); }
+    .flip-active { transform: rotateY(180deg); }
+
+    /* Animación de error (Shake) para el Memorama */
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+    }
+    .animate-shake { animation: shake 0.4s ease-in-out; }
+
+    /* Animaciones tiernas para Gotita Sabia */
+    @keyframes floating {
+      0% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-8px) rotate(1deg); }
+      100% { transform: translateY(0px) rotate(0deg); }
+    }
+    .animate-gotita-float {
+      animation: floating 3.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse-soft {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.95; }
+    }
+    .burbuja-respiracion {
+      animation: pulse-soft 8s ease-in-out infinite;
+    }
+
+    /* Animación dulce y dinámica para el título */
+    @keyframes title-dance {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      25% { transform: translateY(-3px) rotate(-1.5deg); }
+      75% { transform: translateY(2px) rotate(1.5deg); }
+    }
+    .animate-title-dance {
+      animation: title-dance 3.5s ease-in-out infinite;
+    }
+
+    /* Transiciones de pantallas */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.4s ease-out forwards;
+    }
+
+    /* Estilo de Confeti */
+    .confetti-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    /* Scrollbar con estilo tiernito */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #FAF3F0;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #EADCE0;
+      border-radius: 9px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #C29EAA;
+    }
+
+    /* Ocultar elementos molestos de iframes externos */
+    iframe { display: none !important; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between" onclick="iniciarContextoAudio()">
+
+  <!-- Toast de mensajes interactivo (Ajustado para no chocar con el header sticky en móvil) -->
+  <div id="cute-toast" class="fixed top-20 md:top-5 left-1/2 transform -translate-x-1/2 bg-white border-2 border-pastelPink-300 text-slate-700 px-4 md:px-6 py-2.5 md:py-3 rounded-full shadow-lg flex items-center gap-3 z-50 transition-all duration-300 opacity-0 pointer-events-none scale-90 w-11/12 max-w-sm justify-center">
+    <span class="text-pastelPink-500 text-lg md:text-xl shrink-0"><i class="fas fa-magic animate-bounce"></i></span>
+    <span id="cute-toast-text" class="font-semibold text-xs md:text-sm text-center">¡Mensaje de Gotita Sabia!</span>
+  </div>
+
+  <!-- CABECERA PRINCIPAL (Sticky para móvil) -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b-2 border-pastelPink-200 py-2.5 px-4 shadow-sm transition-all">
+    <div class="max-w-6xl mx-auto flex flex-row items-center justify-between gap-2">
+      <div class="text-left cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0" onclick="reiniciarJuegoCompleto()">
+        <h1 class="text-xl md:text-4xl font-extrabold text-pastelPink-500 tracking-tight flex items-center gap-1.5 md:gap-2 animate-title-dance">
+          <i class="fa-solid fa-droplet text-pastelPink-400 animate-bounce" style="animation-duration: 2.5s;"></i> MenstruAcción
+        </h1>
+        <p class="hidden md:block text-xs md:text-sm font-semibold tracking-wide uppercase text-pastelPink-500 mt-0.5">
+          El camino del autocuidado • <span class="font-bold text-pastelPink-500">Mtra. Susy Pedroza</span>
+        </p>
+      </div>
+      
+      <!-- Marcadores Dinámicos (Solo juego) -->
+      <div id="header-stats" class="hidden flex items-center gap-2 md:gap-4 bg-pastelPink-100 px-2.5 py-1.5 md:px-4 md:py-2 rounded-xl md:rounded-2xl border border-pastelPink-200 shrink-0">
+        <div class="text-center hidden sm:block">
+          <p class="text-[9px] md:text-xs text-pastelPink-600 font-bold uppercase">Insignia actual</p>
+          <p id="badge-display" class="font-bold text-[10px] md:text-sm text-slate-700">Exploradora 🌸</p>
+        </div>
+        <div class="w-[2px] h-6 md:h-8 bg-pastelPink-200 hidden sm:block"></div>
+        <div class="text-center">
+          <p class="text-[9px] md:text-xs text-pastelPink-600 font-bold uppercase">Pregunta</p>
+          <p id="progress-display" class="font-bold text-xs md:text-sm text-slate-700">0 / 15</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow max-w-6xl w-full mx-auto p-3 md:p-4 flex flex-col justify-center pb-8">
+
+    <!-- 1. PANTALLA DE INICIO (screen-intro) -->
+    <section id="screen-intro" class="bg-white rounded-3xl p-5 md:p-10 shadow-md border-2 border-pastelPink-100 flex flex-col lg:flex-row items-center gap-6 md:gap-8 animate-fade-in">
+      
+      <!-- GOTITA SABIA BIENVENIDA -->
+      <div class="w-full lg:w-2/5 flex flex-col items-center text-center">
+        <div class="relative w-32 h-32 md:w-56 md:h-56 animate-gotita-float">
+          <!-- Gotita Sabia SVG -->
+          <svg class="w-full h-full" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M100 20C100 20 150 90 150 130C150 157.614 127.614 180 100 180C72.3858 180 50 157.614 50 130C50 90 100 20 100 20Z" fill="#FFAEB5"/>
+            <path d="M100 30C100 30 140 95 140 130C140 152.091 122.091 170 100 170C77.9086 170 60 152.091 60 130C60 95 100 30 100 30Z" fill="#FFD6D9"/>
+            <circle cx="85" cy="120" r="10" fill="#3D2A2E"/>
+            <circle cx="115" cy="120" r="10" fill="#3D2A2E"/>
+            <circle cx="82" cy="116" r="3.5" fill="white"/>
+            <circle cx="112" cy="116" r="3.5" fill="white"/>
+            <circle cx="88" cy="124" r="1.8" fill="white"/>
+            <circle cx="118" cy="124" r="1.8" fill="white"/>
+            <path d="M76 104Q85 97 94 104" stroke="#3D2A2E" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <path d="M106 104Q115 97 124 104" stroke="#3D2A2E" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <ellipse cx="74" cy="130" rx="10" ry="5.5" fill="#FFAEB5" opacity="0.85"/>
+            <ellipse cx="126" cy="130" rx="10" ry="5.5" fill="#FFAEB5" opacity="0.85"/>
+            <path d="M92 126Q100 138 108 126" stroke="#3D2A2E" stroke-width="3" stroke-linecap="round" fill="none"/>
+            <path d="M93 127Q100 137 107 127 Z" fill="#F582A8"/>
+          </svg>
+        </div>
+        <h2 class="text-xl md:text-2xl font-bold mt-2 md:mt-4 text-pastelPink-500 animate-title-dance">¡Hola, soy Gotita Sabia!</h2>
+        <p class="text-slate-700 text-xs md:text-sm max-w-sm mt-1">Tu guía en esta divertida trivia de sabiduría corporal, higiene y amor propio.</p>
+      </div>
+
+      <!-- FORMULARIO E INSTRUCCIONES -->
+      <div class="w-full lg:w-3/5 flex flex-col gap-4 md:gap-6">
+        <div class="bg-pastelPink-100 p-4 md:p-5 rounded-2xl border border-pastelPink-200">
+          <label for="player-name" class="inline-block font-bold text-pastelPink-500 text-sm md:text-base mb-2 animate-title-dance origin-left">
+            <span class="inline-block animate-bounce" style="animation-duration: 2s;">✨</span> Escribe tu nombre o apodo para comenzar:
+          </label>
+          <input type="text" id="player-name" placeholder="Ej. Sofi, María, Gaby..." class="w-full px-3 py-2 md:px-4 md:py-3 rounded-xl border-2 border-pastelPink-300 focus:outline-none focus:border-pastelPink-500 font-bold text-slate-700 bg-white placeholder-slate-400">
+        </div>
+
+        <!-- SECCIÓN: ¿Cómo se juega? -->
+        <div class="border-2 border-dashed border-pastelLila-300 rounded-2xl p-4 md:p-5 bg-pastelLila-100">
+          <h3 class="text-base md:text-lg font-bold text-pastelPink-500 mb-2 md:mb-3 animate-title-dance origin-left">
+            ¿Cómo se juega?
+          </h3>
+          <ul class="space-y-2 md:space-y-3 text-xs md:text-sm text-slate-700 font-medium">
+            <li class="flex items-start gap-2">
+              <span class="text-pastelPink-500 mt-0.5"><i class="fa-solid fa-heart"></i></span>
+              <span><strong class="text-pastelPink-500">El Camino:</strong> Responde 15 preguntas de autocuidado menstrual, divididas en 4 niveles de sabiduría.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-pastelPink-500 mt-0.5"><i class="fa-solid fa-handshake-angle"></i></span>
+              <span><strong class="text-pastelPink-500">Comodines de Apoyo:</strong> Cuenta con la ayuda del 50:50, tu Aliada y el Oráculo de consulta.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-pastelPink-500 mt-0.5"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+              <span><strong class="text-pastelPink-500">Elige tu Ritmo:</strong> Elige el modo tranquilo sin vidas o el modo reto clásico.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-pastelPink-500 mt-0.5"><i class="fa-solid fa-gift"></i></span>
+              <span><strong class="text-pastelPink-500">Premios:</strong> Consigue tu diploma personalizado, juega el memorama menstrual y registra tu ciclo en la rueda interactiva.</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- SELECTOR DE MODO DE JUEGO Y BOTONES -->
+        <div class="flex flex-col items-stretch gap-3 mt-1">
+          <div class="flex-grow flex flex-col justify-center">
+            <span class="inline-block text-[10px] md:text-xs font-bold text-slate-500 uppercase mb-1 animate-title-dance origin-left text-center md:text-left">Elige un modo de aprendizaje:</span>
+            <div class="flex flex-row gap-2">
+              <button id="btn-mode-learn" onclick="setMode('learning')" class="flex-1 py-2 px-1 md:px-3 rounded-xl border-2 border-pastelMint-500 bg-pastelMint-100 font-bold text-[10px] md:text-xs text-slate-700 hover:bg-pastelMint-200 transition-all flex items-center justify-center gap-1 shadow-sm animate-gotita-float" style="animation-duration: 4s;">
+                <i class="fa-solid fa-infinity text-pastelMint-500"></i> Aprendizaje <span class="whitespace-nowrap">(Vidas ∞)</span>
+              </button>
+              <button id="btn-mode-challenge" onclick="setMode('challenge')" class="flex-1 py-2 px-1 md:px-3 rounded-xl border border-slate-300 bg-white font-bold text-[10px] md:text-xs text-slate-700 hover:border-pastelPink-400 transition-all flex items-center justify-center gap-1 shadow-sm animate-gotita-float" style="animation-duration: 5s;">
+                <i class="fa-solid fa-gamepad text-pastelPink-400"></i> Desafío <span class="whitespace-nowrap">(3 Vidas)</span>
+              </button>
+            </div>
+          </div>
+          
+          <button onclick="iniciarJuego()" class="w-full bg-pastelPink-500 hover:bg-pastelPink-600 text-white font-extrabold text-base md:text-lg px-6 py-3.5 md:py-4 rounded-2xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 burbuja-respiracion" style="animation-duration: 2.5s;">
+            ¡Comenzar Aventura! <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+
+        <!-- ACCESOS ESPECIALES DE PRESENTADORA / GUÍA -->
+        <div class="flex flex-col md:flex-row items-center justify-center gap-2 border-t border-slate-200 pt-3 md:pt-4 mt-1">
+          <button onclick="abrirGuiaDocente()" class="w-full md:w-auto border-2 border-dashed border-pastelLila-400 hover:bg-pastelLila-100 text-pastelLila-500 font-bold text-[10px] md:text-xs px-3 py-2 rounded-xl transition-all flex items-center justify-center gap-1.5">
+            <i class="fa-solid fa-chalkboard-user"></i> 👩‍🏫 Guía Docente
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 2. TABLERO DE JUEGO (screen-game) -->
+    <section id="screen-game" class="hidden grid grid-cols-1 lg:grid-cols-4 gap-4 md:gap-6 animate-fade-in">
+      
+      <!-- COLUMNA IZQUIERDA: GOTITA SABIA REACCIONA Y COMODINES -->
+      <div class="lg:col-span-1 flex flex-col gap-3 md:gap-4 order-1 lg:order-1">
+        
+        <!-- Tarjeta de Gotita Sabia Interactiva (Super compacta en móvil) -->
+        <div class="bg-white rounded-2xl md:rounded-3xl p-2.5 md:p-4 shadow-md border-2 border-pastelPink-100 flex flex-row lg:flex-col items-center gap-3 md:gap-4 text-center">
+          <div class="relative w-14 h-14 md:w-24 md:h-24 lg:w-36 lg:h-36 shrink-0 animate-gotita-float mx-auto">
+            <svg id="gotita-game-svg" class="w-full h-full" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M100 20C100 20 150 90 150 130C150 157.614 127.614 180 100 180C72.3858 180 50 157.614 50 130C50 90 100 20 100 20Z" fill="#FFAEB5"/>
+              <path d="M100 30C100 30 140 95 140 130C140 152.091 122.091 170 100 170C77.9086 170 60 152.091 60 130C60 95 100 30 100 30Z" fill="#FFD6D9"/>
+              <g id="gotita-eyes">
+                <circle cx="85" cy="120" r="7" fill="#3D2A2E"/>
+                <circle cx="115" cy="120" r="7" fill="#3D2A2E"/>
+                <circle cx="83" cy="117" r="2.5" fill="white"/>
+                <circle cx="113" cy="117" r="2.5" fill="white"/>
+              </g>
+              <ellipse cx="77" cy="128" rx="8" ry="4" fill="#FFAEB5" opacity="0.8"/>
+              <ellipse cx="123" cy="128" rx="8" ry="4" fill="#FFAEB5" opacity="0.8"/>
+              <path id="gotita-mouth" d="M96 130Q100 134 104 130" stroke="#3D2A2E" stroke-width="3" stroke-linecap="round" fill="none"/>
+            </svg>
+          </div>
+          <div class="text-left lg:text-center flex-grow">
+            <h4 class="hidden md:block font-extrabold text-pastelPink-500 text-xs md:text-sm">Gotita Sabia</h4>
+            <p id="gotita-bubble" class="text-[10px] md:text-xs text-slate-700 italic mt-0 md:mt-1 font-medium bg-pastelPink-100 p-1.5 md:p-2 rounded-xl border border-pastelPink-200">
+              "¡Tú puedes! Elige con sabiduría e intuición."
+            </p>
+          </div>
+        </div>
+
+        <!-- Comodines Temáticos -->
+        <div class="bg-white rounded-2xl md:rounded-3xl p-2.5 md:p-4 shadow-md border-2 border-pastelPink-100">
+          <h4 class="font-bold text-[11px] md:text-sm text-pastelPink-500 mb-2 flex items-center justify-center gap-1.5 border-b border-pastelPink-100 pb-1.5 animate-title-dance">
+            <i class="fa-solid fa-wand-magic-sparkles text-pastelPink-400"></i> Comodines
+          </h4>
+          <div class="grid grid-cols-3 lg:grid-cols-1 gap-1.5 md:gap-2">
+            <!-- 50:50 -->
+            <button id="joker-5050" onclick="usar5050()" class="py-1.5 md:py-2.5 px-1 md:px-2 bg-pastelPeach-100 border border-pastelPeach-300 rounded-lg md:rounded-xl font-bold text-[9px] md:text-xs text-slate-700 hover:bg-pastelPeach-200 transition-all flex flex-col items-center justify-center gap-0.5 shadow-sm text-center">
+              <span class="text-pastelPeach-500 text-xs md:text-base"><i class="fa-solid fa-scissors"></i></span>
+              <span>50:50</span>
+            </button>
+            <!-- Llamar a una Aliada -->
+            <button id="joker-aliada" onclick="usarAliada()" class="py-1.5 md:py-2.5 px-1 md:px-2 bg-pastelLila-100 border border-pastelLila-300 rounded-lg md:rounded-xl font-bold text-[9px] md:text-xs text-slate-700 hover:bg-pastelLila-200 transition-all flex flex-col items-center justify-center gap-0.5 shadow-sm text-center">
+              <span class="text-pastelLila-500 text-xs md:text-base"><i class="fa-solid fa-phone-volume"></i></span>
+              <span>Aliada</span>
+            </button>
+            <!-- El Oráculo -->
+            <button id="joker-oraculo" onclick="usarOraculo()" class="py-1.5 md:py-2.5 px-1 md:px-2 bg-pastelMint-100 border border-pastelMint-300 rounded-lg md:rounded-xl font-bold text-[9px] md:text-xs text-slate-700 hover:bg-pastelMint-200 transition-all flex flex-col items-center justify-center gap-0.5 shadow-sm text-center">
+              <span class="text-pastelMint-500 text-xs md:text-base"><i class="fa-solid fa-book-open"></i></span>
+              <span>Oráculo</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Indicador de Vidas (Solo en Modo Desafío) -->
+        <div id="lives-card" class="hidden bg-white rounded-2xl md:rounded-3xl p-2.5 md:p-4 shadow-md border-2 border-pastelPink-100 text-center">
+          <p class="text-[10px] md:text-xs font-bold text-slate-500 uppercase">Tus Vidas</p>
+          <div id="hearts-container" class="flex items-center justify-center gap-1.5 md:gap-2 mt-1 text-base md:text-xl text-pastelPink-500 font-cozy"></div>
+        </div>
+
+      </div>
+
+      <!-- COLUMNA CENTRAL: LA PREGUNTA Y OPCIONES -->
+      <div class="lg:col-span-2 flex flex-col gap-3 md:gap-4 order-2 lg:order-2">
+        
+        <!-- Cuadro de la Pregunta -->
+        <div class="bg-white rounded-2xl md:rounded-3xl p-5 md:p-8 shadow-md border-2 border-pastelPink-100 flex flex-col gap-3 md:gap-4 relative">
+          <!-- Botón de Audio para Lectura -->
+          <button onclick="leerTextoPregunta()" class="absolute top-3 right-3 md:top-4 md:right-4 text-pastelPink-500 hover:text-pastelPink-600 text-base md:text-lg hover:scale-110 transition-transform" title="Escuchar pregunta">
+            <i class="fa-solid fa-volume-high"></i>
+          </button>
+
+          <span id="level-badge" class="self-start text-[10px] md:text-xs font-extrabold px-2.5 py-1 bg-pastelPink-200 text-pastelPink-600 rounded-full uppercase tracking-wider">
+            Nivel 1
+          </span>
+          
+          <h3 id="question-text" class="text-lg md:text-2xl font-extrabold text-pastelPink-500 leading-snug animate-title-dance origin-left">
+            ¿Cargando pregunta de MenstruAcción...?
+          </h3>
+        </div>
+
+        <!-- Panel de Opciones de Respuesta -->
+        <div id="options-panel" class="grid grid-cols-1 gap-2 md:gap-3"></div>
+
+      </div>
+
+      <!-- COLUMNA DERECHA: ESCALA DE SABIDURÍA (PREMIOS) -->
+      <div class="lg:col-span-1 order-3 lg:order-3">
+        <div class="bg-white rounded-2xl md:rounded-3xl p-3 md:p-4 shadow-md border-2 border-pastelPink-100 h-full flex flex-col justify-between animate-gotita-float" style="animation-duration: 6s;">
+          <h4 class="font-bold text-[11px] md:text-sm text-pastelPink-500 mb-2 md:mb-3 flex items-center justify-center gap-1.5 border-b border-pastelPink-100 pb-1.5 md:pb-2 animate-title-dance">
+            <i class="fa-solid fa-graduation-cap text-pastelPink-400"></i> Escala de Sabiduría
+          </h4>
+          
+          <div id="prizes-list" class="flex flex-col gap-1 overflow-y-auto max-h-[200px] lg:max-h-none justify-end pr-1"></div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- 3. PANTALLA FINAL: PREMIOS Y CERTIFICADO (screen-victory) -->
+    <section id="screen-victory" class="hidden bg-white rounded-3xl p-5 md:p-10 shadow-md border-2 border-pastelPink-100 flex flex-col gap-6 md:gap-8 relative animate-fade-in">
+      
+      <!-- Canvas de Confeti -->
+      <canvas id="victory-confetti" class="confetti-canvas"></canvas>
+
+      <div class="text-center flex flex-col items-center gap-2 md:gap-3">
+        <div class="text-5xl md:text-6xl animate-bounce">🏆🎉🌸</div>
+        <h2 class="text-2xl md:text-4xl font-extrabold text-pastelPink-500">¡Felicidades, Maestra!</h2>
+        <p class="text-slate-700 font-semibold max-w-xl text-xs md:text-base">
+          Has completado con éxito la aventura pedagógica de <span class="text-pastelPink-500">MenstruAcción</span>. Ahora tienes en tus manos las herramientas de la sabiduría, la sororidad y el autocuidado.
+        </p>
+      </div>
+
+      <!-- SECCIÓN DEL COMPROMISO INTERACTIVO -->
+      <div class="bg-pastelPink-100 border-2 border-dashed border-pastelPink-300 rounded-2xl p-4 md:p-5 max-w-2xl mx-auto w-full">
+        <h3 class="text-base md:text-lg font-bold text-pastelPink-500 mb-2 md:mb-3 text-center flex items-center justify-center gap-2">
+          <i class="fa-solid fa-pen-nib"></i> Mi Compromiso
+        </h3>
+        <p class="text-[10px] md:text-xs text-slate-700 text-center mb-3 md:mb-4 font-medium">
+          Elige o escribe una promesa para ti en tus días de menstruación. Se estampará de manera interactiva en tu certificado.
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-3 md:mb-4">
+          <button onclick="elegirCompromiso(1)" class="p-2 md:p-3 bg-white hover:bg-pastelPink-200 border border-pastelPink-300 rounded-xl text-[10px] md:text-xs text-slate-700 font-semibold transition-all shadow-sm">
+            "Prometo escuchar a mi cuerpo y descansar si me siento cansada."
+          </button>
+          <button onclick="elegirCompromiso(2)" class="p-2 md:p-3 bg-white hover:bg-pastelPink-200 border border-pastelPink-300 rounded-xl text-[10px] md:text-xs text-slate-700 font-semibold transition-all shadow-sm">
+            "Prometo hablar de mi menstruación con naturalidad y sin vergüenza."
+          </button>
+          <button onclick="elegirCompromiso(3)" class="p-2 md:p-3 bg-white hover:bg-pastelPink-200 border border-pastelPink-300 rounded-xl text-[10px] md:text-xs text-slate-700 font-semibold transition-all shadow-sm">
+            "Prometo ser paciente con mis emociones en cada fase de mi ciclo."
+          </button>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-2">
+          <input type="text" id="custom-commitment" placeholder="O escribe tu propio compromiso de amor propio aquí..." class="flex-grow px-3 py-2 md:px-4 md:py-2 text-[10px] md:text-xs rounded-xl border border-pastelPink-300 focus:outline-none focus:border-pastelPink-500 font-semibold text-slate-700">
+          <button onclick="aplicarCompromisoPersonalizado()" class="bg-pastelPink-500 hover:bg-pastelPink-600 text-white font-bold text-xs px-4 py-2 rounded-xl transition-all shadow-sm">
+            Aplicar
+          </button>
+        </div>
+      </div>
+
+      <!-- DISEÑO DEL CERTIFICADO IMPRIMIBLE -->
+      <div id="diploma-view" class="bg-pastelPeach-100 border-4 md:border-8 border-double border-pastelPink-300 rounded-2xl md:rounded-3xl p-5 md:p-8 max-w-3xl mx-auto w-full shadow-lg relative overflow-hidden flex flex-col gap-3 md:gap-4 text-center">
+        <!-- Decorados de Flores -->
+        <span class="absolute top-1 left-1 md:top-2 md:left-2 text-2xl md:text-3xl opacity-35">🌸</span>
+        <span class="absolute top-1 right-1 md:top-2 md:right-2 text-2xl md:text-3xl opacity-35">🌼</span>
+        <span class="absolute bottom-1 left-1 md:bottom-2 md:left-2 text-2xl md:text-3xl opacity-35">🌼</span>
+        <span class="absolute bottom-1 right-1 md:bottom-2 md:right-2 text-2xl md:text-3xl opacity-35">🌸</span>
+
+        <div>
+          <span class="text-[9px] md:text-xs font-bold text-pastelPink-500 uppercase tracking-widest block">Certificado de Sabiduría y Empoderamiento</span>
+          <h3 class="text-xl md:text-3xl font-extrabold text-pastelPink-500 mt-1">MenstruAcción</h3>
+        </div>
+
+        <p class="text-[10px] md:text-xs text-slate-700 italic font-semibold mt-1 md:mt-2">Este reconocimiento se otorga con cariño y admiración a:</p>
+        
+        <h4 id="diploma-name" class="text-2xl md:text-4xl font-extrabold text-slate-700 underline decoration-pastelPink-400 font-cozy my-1">
+          [Nombre de la Alumna]
+        </h4>
+
+        <p class="text-[10px] md:text-sm text-slate-700 max-w-md mx-auto leading-relaxed">
+          Por haber completado con sabiduría las 15 preguntas pedagógicas de autocuidado, higiene menstrual, entendimiento emocional y desmitificación de tabúes.
+        </p>
+
+        <!-- Espacio de Compromiso en el Certificado -->
+        <div class="bg-white border-2 border-dashed border-pastelPeach-300 rounded-xl md:rounded-2xl p-3 md:p-4 max-w-lg mx-auto w-full mt-2">
+          <p class="text-[9px] md:text-xs text-pastelPink-500 font-bold uppercase tracking-wider mb-1"><i class="fa-solid fa-heart"></i> Mi Promesa de Autocuidado</p>
+          <p id="diploma-commitment" class="text-xs md:text-sm font-bold text-slate-700 italic font-cozy">
+            "Prometo cuidar con mucho amor de mí misma y de mi ciclo."
+          </p>
+        </div>
+
+        <div class="flex items-center justify-between mt-4 md:mt-6 border-t border-pastelPink-200 pt-3 md:pt-4 max-w-md mx-auto w-full gap-2 md:gap-4">
+          <div class="text-center w-1/2">
+            <span class="text-xs md:text-sm font-bold text-slate-700 font-cozy block">Gotita Sabia</span>
+            <p class="text-[8px] md:text-[10px] text-pastelPink-500 font-bold uppercase mt-0.5">Compañera de Ruta</p>
+          </div>
+          <div class="text-center w-1/2 border-l border-pastelPink-200 pl-2 md:pl-0 md:border-none">
+            <span class="text-xs md:text-sm font-bold text-slate-700 font-cozy block">Mtra. Susy Pedroza</span>
+            <p class="text-[8px] md:text-[10px] text-pastelPink-500 font-bold uppercase mt-0.5">Educadora y Autora</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN: RUEDA DEL CICLO Y RECOMPENSAS FISICAS (STICKERS Y RUEDA) -->
+      <div class="border-t-2 border-slate-200 pt-6 md:pt-8 mt-2 md:mt-4">
+        <h3 class="text-xl md:text-2xl font-bold text-pastelPink-500 text-center mb-4 md:mb-6 flex items-center justify-center gap-2">
+          <i class="fa-solid fa-gift"></i> ¡Tu Kit de Premios Interactivos!
+        </h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 max-w-4xl mx-auto">
+          
+          <!-- RECURSO 1: Rueda Interactiva del Ciclo Menstrual -->
+          <div class="bg-pastelLila-100 border-2 border-pastelLila-200 rounded-2xl md:rounded-3xl p-4 md:p-5 flex flex-col gap-3 md:gap-4 shadow-sm">
+            <div class="text-3xl md:text-4xl text-center md:text-left">🔄🌸</div>
+            <h4 class="font-extrabold text-pastelPink-500 text-base md:text-lg text-center md:text-left">La Rueda de las 4 Estaciones del Ciclo y Ficha</h4>
+            <p class="text-[11px] md:text-xs text-slate-700 leading-relaxed font-medium text-center md:text-left">
+              ¡Un recurso didáctico 100% interactivo! Explora cómo viajan tus hormonas, qué le pasa a tu cuerpo en cada fase, tus emociones asociadas y cómo cuidarte día a día.
+            </p>
+            <button onclick="abrirRuedaCiclo()" class="mt-auto w-full bg-pastelLila-500 hover:bg-pastelLila-600 text-white font-bold text-xs md:text-sm py-3 md:py-2.5 px-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm">
+              <i class="fa-solid fa-arrows-spin"></i> Abrir Rueda y Ficha de Cuidado
+            </button>
+          </div>
+
+          <!-- RECURSO 2: Planilla de Stickers -->
+          <div class="bg-pastelPeach-100 border-2 border-pastelPeach-200 rounded-2xl md:rounded-3xl p-4 md:p-5 flex flex-col gap-3 md:gap-4 shadow-sm">
+            <div class="text-3xl md:text-4xl text-center md:text-left">🧠🌸</div>
+            <h4 class="font-extrabold text-pastelPink-500 text-base md:text-lg text-center md:text-left">Memorama de Gotita Sabia</h4>
+            <p class="text-[11px] md:text-xs text-slate-700 leading-relaxed font-medium text-center md:text-left">
+              ¡Hora de jugar! Entrena tu mente y repasa los mensajes de autocuidado con este divertido memorama interactivo. Encuentra los pares de emojis escondidos y rompe tu propio récord de movimientos.
+            </p>
+            <button onclick="abrirMemorama()" class="mt-auto w-full bg-pastelPeach-500 hover:bg-pastelPeach-600 text-white font-bold text-xs md:text-sm py-3 md:py-2.5 px-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm">
+              <i class="fa-solid fa-gamepad"></i> Jugar Memorama
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTÓN VOLVER A JUGAR -->
+      <div class="flex justify-center border-t border-slate-200 pt-5 md:pt-6">
+        <button onclick="reiniciarJuegoCompleto()" class="w-full md:w-auto bg-slate-700 hover:bg-slate-800 text-white font-bold text-xs md:text-sm px-6 py-3 md:py-2.5 rounded-xl transition-all flex items-center justify-center gap-1.5 shadow">
+          <i class="fa-solid fa-arrow-rotate-left"></i> Volver a Jugar / Inicio
+        </button>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- PIE DE PÁGINA -->
+  <footer class="bg-white border-t border-slate-200 py-3 md:py-4 text-center text-[10px] md:text-xs font-semibold text-slate-500 pb-safe">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-1.5">
+      <p>© 2026 MenstruAcción. Todos los derechos reservados.</p>
+      <p class="text-pastelPink-500">Diseñado con amor y pedagogía por la <span class="font-bold">Mtra. Susy Pedroza</span>.</p>
+    </div>
+  </footer>
+
+  <!-- MODAL: EXPLICACIÓN DE RESPUESTA / RETROALIMENTACIÓN -->
+  <div id="modal-feedback" class="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-md w-full p-5 md:p-6 shadow-2xl border-2 border-pastelPink-200 relative max-h-[85vh] overflow-y-auto">
+      <!-- Botón de Audio para Lectura -->
+      <button onclick="leerTextoFeedback()" class="absolute top-3 right-3 md:top-4 md:right-4 text-pastelPink-500 hover:text-pastelPink-600 text-lg hover:scale-110 transition-transform" title="Escuchar explicación">
+        <i class="fa-solid fa-volume-high"></i>
+      </button>
+
+      <div class="flex flex-col items-center gap-3 md:gap-4 text-center mt-4 md:mt-0">
+        <!-- Icono de Estado -->
+        <div id="feedback-icon" class="text-4xl md:text-5xl animate-bounce">✨</div>
+        
+        <h4 id="feedback-title" class="text-xl md:text-2xl font-extrabold text-pastelPink-500 font-cozy">¡Correcto!</h4>
+        
+        <p id="feedback-text" class="text-slate-700 font-semibold text-xs md:text-sm leading-relaxed bg-pastelPink-100 p-3 md:p-4 rounded-2xl border border-pastelPink-200">
+          Explicación cariñosa aquí.
+        </p>
+
+        <button onclick="cerrarFeedback()" class="w-full mt-2 bg-pastelPink-500 hover:bg-pastelPink-600 text-white font-extrabold py-3 rounded-2xl transition-all shadow-md text-sm md:text-base">
+          Siguiente Pregunta <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: EL ORÁCULO DE CONSULTA (Dual Tab) -->
+  <div id="modal-oraculo" class="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-4 md:p-6 shadow-2xl border-2 border-pastelMint-300 max-h-[85vh] overflow-y-auto">
+      <div class="flex justify-between items-center border-b border-slate-200 pb-2 md:pb-3 mb-3 md:mb-4">
+        <h4 class="text-base md:text-lg font-bold text-pastelPink-500 flex items-center gap-2">
+          <i class="fa-solid fa-book-open text-pastelMint-500"></i> El Oráculo
+        </h4>
+        <div id="oraculo-timer" class="bg-pastelMint-100 border border-pastelMint-300 px-2 md:px-3 py-1 rounded-full text-[10px] md:text-xs font-bold text-slate-700 flex items-center gap-1.5 shrink-0">
+          <i class="fa-regular fa-clock text-pastelMint-500 animate-spin"></i> <span id="timer-sec">30</span>s
+        </div>
+      </div>
+
+      <!-- Navegación de Pestañas -->
+      <div class="flex flex-col sm:flex-row gap-2 mb-3 md:mb-4">
+        <button id="tab-infografia" onclick="cambiarPestañaOraculo('infografia')" class="w-full py-2 rounded-xl bg-pastelMint-100 border-2 border-pastelMint-300 text-[10px] md:text-xs font-bold text-slate-700 transition-all">
+          📖 Infografía de Consulta
+        </button>
+        <button id="tab-burbuja" onclick="cambiarPestañaOraculo('burbuja')" class="w-full py-2 rounded-xl bg-white border border-slate-200 text-[10px] md:text-xs font-bold text-slate-700 transition-all flex items-center justify-center gap-1.5">
+          🧘‍♀️ Burbuja de Respiración
+        </button>
+      </div>
+
+      <!-- Contenedor Tab 1: Infografía -->
+      <div id="oraculo-content-infografia" class="space-y-2 md:space-y-3 pr-1">
+        <div class="p-2.5 md:p-3 bg-pastelPink-100 border border-pastelPink-200 rounded-xl text-[10px] md:text-xs">
+          <h5 class="font-bold text-pastelPink-500 mb-0.5 md:mb-1">🩸 ¿Qué es la menstruación?</h5>
+          <p class="text-slate-700 font-medium leading-relaxed">Un sangrado natural del cuerpo que indica que estás creciendo y tu cuerpo está sano. Viene del útero, una vez al mes y dura de 3 a 7 días.</p>
+        </div>
+        <div class="p-2.5 md:p-3 bg-pastelLila-100 border border-pastelLila-200 rounded-xl text-[10px] md:text-xs">
+          <h5 class="font-bold text-pastelPink-500 mb-0.5 md:mb-1">🧬 El Útero y las Hormonas</h5>
+          <p class="text-slate-700 font-medium leading-relaxed">El útero es un músculo en forma de pera invertida. Las hormonas son mensajeros químicos naturales que provocan cambios biológicos y emocionales naturales.</p>
+        </div>
+        <div class="p-2.5 md:p-3 bg-pastelPeach-100 border border-pastelPeach-200 rounded-xl text-[10px] md:text-xs">
+          <h5 class="font-bold text-pastelPink-500 mb-0.5 md:mb-1">🧼 Higiene y Productos</h5>
+          <p class="text-slate-700 font-medium leading-relaxed">Existen opciones desechables (toallas, tampones) y reutilizables/ecológicas (calzones menstruales, toallas de tela, copas). Es ideal cambiar tu toalla cada 4 a 6 horas y envolverla en papel higiénico antes de tirarla al bote (nunca al inodoro).</p>
+        </div>
+        <div class="p-2.5 md:p-3 bg-pastelMint-100 border border-pastelMint-200 rounded-xl text-[10px] md:text-xs">
+          <h5 class="font-bold text-pastelPink-500 mb-0.5 md:mb-1">🌸 Mitología Menstrual</h5>
+          <p class="text-slate-700 font-medium leading-relaxed">Bañarse, nadar, lavarse el cabello y ejercitarse es saludable, higiénico y ayuda a relajar los cólicos menstruales. No dejes de hacer tus actividades si te sientes cómoda.</p>
+        </div>
+      </div>
+
+      <!-- Contenedor Tab 2: Burbuja de Respiración -->
+      <div id="oraculo-content-burbuja" class="hidden text-center flex flex-col items-center py-4 md:py-6 gap-4 md:gap-6">
+        <p class="text-[10px] md:text-xs font-semibold text-slate-700 max-w-xs px-2">
+          Relaja el músculo del útero y alivia los cólicos respirando con esta burbuja.
+        </p>
+        
+        <!-- Círculo de respiración -->
+        <div class="w-24 h-24 md:w-32 md:h-32 rounded-full bg-gradient-to-tr from-pastelPink-300 via-pastelLila-200 to-pastelMint-200 flex items-center justify-center shadow-lg transform transition-all duration-1000 scale-100" id="breathing-sphere">
+          <span id="breathing-status" class="text-[10px] md:text-sm font-extrabold text-slate-700 tracking-wider">RESPIRA</span>
+        </div>
+
+        <div class="flex flex-col sm:flex-row items-center gap-2 md:gap-4 text-[10px] md:text-xs font-bold text-slate-500">
+          <span id="step-inhale" class="text-pastelPink-500"><i class="fa-solid fa-circle-arrow-up"></i> Inhala (4s)</span>
+          <span id="step-hold"><i class="fa-solid fa-circle"></i> Mantén (4s)</span>
+          <span id="step-exhale"><i class="fa-solid fa-circle-arrow-down"></i> Exhala (4s)</span>
+        </div>
+      </div>
+
+      <div class="mt-4 md:mt-5 pt-3 border-t border-slate-200 flex justify-center md:justify-end">
+        <button onclick="cerrarOraculo()" class="w-full md:w-auto bg-pastelPink-500 hover:bg-pastelPink-600 text-white font-bold text-xs md:text-sm px-5 py-2.5 md:py-2 rounded-xl transition-all">
+          Entendido, Volver al Tablero
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: COMODÍN LLAMAR A UNA ALIADA -->
+  <div id="modal-aliada" class="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-md w-full p-5 md:p-6 shadow-2xl border-2 border-pastelLila-300 max-h-[85vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-slate-200 pb-2 md:pb-3 mb-3 md:mb-4">
+        <h4 class="text-base md:text-lg font-bold text-pastelPink-500 flex items-center gap-2">
+          <i class="fa-solid fa-phone-volume text-pastelLila-500 animate-bounce"></i> Llamar a una Aliada
+        </h4>
+        <button onclick="cerrarAliada()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <!-- Selector de Aliada -->
+      <div id="aliada-selector" class="space-y-2">
+        <p class="text-[10px] md:text-xs font-bold text-slate-500 uppercase mb-2 text-center md:text-left">Elige a tu red de apoyo para esta pregunta:</p>
+        <button onclick="llamarAliadaEspecifica('enfermera')" class="w-full p-2.5 md:p-3 bg-pastelMint-100 hover:bg-pastelMint-200 rounded-xl md:rounded-2xl border border-pastelMint-300 flex items-center gap-3 transition-all text-left">
+          <span class="text-2xl md:text-3xl">👩‍⚕️</span>
+          <div class="text-left">
+            <h5 class="text-xs md:text-sm font-bold text-slate-700">Enfermera Escolar</h5>
+            <p class="text-[9px] md:text-[10px] text-slate-500">Consejo científico, claro y seguro.</p>
+          </div>
+        </button>
+        <button onclick="llamarAliadaEspecifica('mama')" class="w-full p-2.5 md:p-3 bg-pastelPink-100 hover:bg-pastelPink-200 rounded-xl md:rounded-2xl border border-pastelPink-300 flex items-center gap-3 transition-all text-left">
+          <span class="text-2xl md:text-3xl">👩‍👧</span>
+          <div class="text-left">
+            <h5 class="text-xs md:text-sm font-bold text-slate-700">Tu Mamá / Tía de Confianza</h5>
+            <p class="text-[9px] md:text-[10px] text-slate-500">Un consejo maternal de pura calidez.</p>
+          </div>
+        </button>
+        <button onclick="llamarAliadaEspecifica('amiga')" class="w-full p-2.5 md:p-3 bg-pastelLila-100 hover:bg-pastelLila-200 rounded-xl md:rounded-2xl border border-pastelLila-300 flex items-center gap-3 transition-all text-left">
+          <span class="text-2xl md:text-3xl">👧🏻</span>
+          <div class="text-left">
+            <h5 class="text-xs md:text-sm font-bold text-slate-700">Hermana Mayor o Compañera</h5>
+            <p class="text-[9px] md:text-[10px] text-slate-500">Consejo amigable de cómplice de aventuras.</p>
+          </div>
+        </button>
+      </div>
+
+      <!-- Diálogo de la Aliada -->
+      <div id="aliada-dialog" class="hidden flex flex-col gap-3 md:gap-4 text-center items-center py-2">
+        <div id="aliada-avatar" class="text-4xl md:text-5xl">👩‍⚕️</div>
+        <h5 id="aliada-title" class="font-bold text-slate-700 text-sm md:text-base">Enfermera Escolar</h5>
+        <p id="aliada-bubble-text" class="text-[11px] md:text-xs text-slate-700 font-semibold italic bg-pastelLila-100 p-3 md:p-4 rounded-xl md:rounded-2xl border border-pastelLila-200 leading-relaxed">
+          "Hola, apodo..."
+        </p>
+        <button onclick="cerrarAliada()" class="w-full mt-2 bg-pastelPink-500 hover:bg-pastelPink-600 text-white font-bold text-xs md:text-sm py-3 md:py-2.5 rounded-xl transition-all">
+          ¡Gracias, Aliada! Volver al juego
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: GUÍA METODOLÓGICA DOCENTE -->
+  <div id="modal-guia-docente" class="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-4 md:p-6 shadow-2xl border-2 border-pastelLila-300 max-h-[85vh] overflow-y-auto font-cozy">
+      <div class="flex items-center justify-between border-b border-slate-200 pb-2 md:pb-3 mb-3 md:mb-4">
+        <h4 class="text-base md:text-lg font-bold text-pastelPink-500 flex items-center gap-2">
+          <i class="fa-solid fa-chalkboard-user text-pastelLila-500"></i> Guía Metodológica para la Maestra
+        </h4>
+        <button onclick="cerrarGuiaDocente()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="space-y-3 md:space-y-4 text-[11px] md:text-sm text-slate-700 leading-relaxed font-medium">
+        <p>
+          Estimada <strong class="text-pastelPink-500">Mtra. Susy Pedroza</strong>, este panel está diseñado exclusivamente para facilitarte el despliegue didáctico de <strong class="text-pastelPink-500">MenstruAcción</strong> en tus sesiones presenciales o virtuales.
+        </p>
+
+        <!-- Bloque 1 -->
+        <div class="bg-pastelPink-100 p-3 md:p-3.5 rounded-xl border border-pastelPink-200">
+          <h5 class="font-bold text-pastelPink-500 mb-1 md:mb-1.5 flex items-center gap-1.5 text-xs md:text-sm">
+            <span class="text-sm md:text-base">🏫</span> 1. Dinámicas Escolares por Niveles
+          </h5>
+          <ul class="space-y-1 md:space-y-1.5 list-disc pl-4 text-[10px] md:text-xs">
+            <li><strong>Preguntas 1-4 (Curiosa):</strong> Úsalas para "romper el hielo". Permite que las niñas respondan a coro y refuercen los términos médicos frente a mitos cómicos.</li>
+            <li><strong>Preguntas 5-8 (Conocedora):</strong> Ideal para debatir sobre la variedad de productos de higiene. Si es posible, muestra muestras físicas (toallitas, copa, calzón menstrual) para que las toquen.</li>
+            <li><strong>Preguntas 9-12 (Experta):</strong> Haz énfasis en la gestión física del cólico y la importancia de validar las emociones (cambios hormonales).</li>
+            <li><strong>Preguntas 13-15 (Misterio Resuelto):</strong> Úsalas para reflexionar sobre la sororidad frente a las manchas accidentales en el aula escolar.</li>
+          </ul>
+        </div>
+
+        <!-- Bloque 2 -->
+        <div class="bg-pastelMint-100 p-3 md:p-3.5 rounded-xl border border-pastelMint-200">
+          <h5 class="font-bold text-pastelMint-500 mb-1 md:mb-1.5 flex items-center gap-1.5 text-xs md:text-sm">
+            <span class="text-sm md:text-base">💬</span> 2. Preguntas Detonantes de Análisis
+          </h5>
+          <ul class="space-y-1 md:space-y-1.5 list-disc pl-4 text-[10px] md:text-xs">
+            <li>"Si una amiga se mancha de sangre la falda en el receso, ¿cómo podemos cuidarla entre todas en vez de reírnos?"</li>
+            <li>"¿Por qué creen que durante tantos años la menstruación se mantuvo en secreto o como algo de lo que daba pena hablar?"</li>
+            <li>"¿Qué actividades que les gustan mucho no dejarían de hacer al estar menstruando?"</li>
+          </ul>
+        </div>
+
+        <!-- Bloque 3 -->
+        <div class="bg-pastelPeach-100 p-3 md:p-3.5 rounded-xl border border-pastelPeach-200">
+          <h5 class="font-bold text-pastelPeach-500 mb-1 md:mb-1.5 flex items-center gap-1.5 text-xs md:text-sm">
+            <span class="text-sm md:text-base">💾</span> 3. Consejos para la Descarga de Materiales
+          </h5>
+          <p class="mb-1 text-[10px] md:text-xs">El juego genera tres tipos de materiales de autocuidado que se pueden descargar directamente:</p>
+          <ul class="space-y-1 md:space-y-1.5 list-disc pl-4 text-[10px] md:text-xs">
+            <li><strong>La Ficha de Cuidado de Hoy:</strong> Descarga la ficha diaria para que cada niña mantenga un registro personalizado en su dispositivo o computadora escolar.</li>
+            <li><strong>Memorama Interactivo:</strong> En lugar de stickers estáticos, las alumnas podrán jugar un divertido memorama para poner a prueba su memoria visual con conceptos de autocuidado.</li>
+            <li><strong>El Certificado de Sabiduría:</strong> La jugadora podrá conservar el diploma en su dispositivo local y abrirlo para imprimirlo cómodamente fuera del entorno escolar.</li>
+          </ul>
+        </div>
+
+        <p class="text-center font-bold text-pastelPink-500 mt-2 text-[10px] md:text-xs">
+          ¡Fomentando aulas llenas de empatía, ciencia y respeto mutuo!
+        </p>
+      </div>
+
+      <div class="mt-4 md:mt-5 pt-3 border-t border-slate-200 flex justify-center md:justify-end">
+        <button onclick="cerrarGuiaDocente()" class="w-full md:w-auto bg-pastelPink-500 hover:bg-pastelPink-600 text-white font-bold text-xs md:text-sm px-5 py-2.5 md:py-2 rounded-xl transition-all">
+          Cerrar Guía
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL RECURSO: RUEDA DEL CICLO Y FICHA DE HOY -->
+  <div id="modal-rueda-ciclo" class="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-5xl w-full p-4 md:p-6 shadow-2xl border-2 border-pastelLila-300 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-slate-200 pb-2 md:pb-3 mb-3 md:mb-4 font-cozy">
+        <h4 class="text-base md:text-lg font-bold text-pastelPink-500 flex items-center gap-2">
+          <i class="fa-solid fa-arrows-spin text-pastelLila-500 animate-spin-slow"></i> Rueda e Infografía de Gotita Sabia
+        </h4>
+        <button onclick="cerrarRuedaCiclo()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <!-- Panel Dual: Rueda e Infografía / Ficha Interactiva -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6 items-start">
+        
+        <!-- Lado Izquierdo: Selección de Fase de la Rueda -->
+        <div class="lg:col-span-5 flex flex-col items-center gap-3 md:gap-4 bg-pastelPink-50 p-3 md:p-4 rounded-2xl md:rounded-3xl border border-pastelPink-100">
+          <span class="text-[10px] md:text-xs font-bold text-slate-500 uppercase text-center">Haz clic en una fase para explorar:</span>
+          
+          <div class="relative w-52 h-52 md:w-64 md:h-64 rounded-full border-4 border-white shadow-md flex items-center justify-center overflow-hidden shrink-0">
+            <!-- Representación visual de las 4 fases como porciones de la Rueda -->
+            <div class="absolute inset-0 grid grid-cols-2 grid-rows-2">
+              <button onclick="seleccionarFaseCiclo(0)" id="rueda-btn-0" class="bg-pastelPink-100 hover:bg-pastelPink-200 transition-all flex flex-col items-center justify-center border border-white p-2">
+                <span class="text-xl md:text-2xl">🩸</span>
+                <span class="text-[7px] md:text-[9px] font-extrabold text-pastelPink-600 uppercase">Menstruación</span>
+              </button>
+              <button onclick="seleccionarFaseCiclo(1)" id="rueda-btn-1" class="bg-pastelPeach-100 hover:bg-pastelPeach-200 transition-all flex flex-col items-center justify-center border border-white p-2">
+                <span class="text-xl md:text-2xl">🌱</span>
+                <span class="text-[7px] md:text-[9px] font-extrabold text-pastelPeach-600 uppercase">F. Folicular</span>
+              </button>
+              <button onclick="seleccionarFaseCiclo(3)" id="rueda-btn-3" class="bg-pastelLila-100 hover:bg-pastelLila-200 transition-all flex flex-col items-center justify-center border border-white p-2">
+                <span class="text-xl md:text-2xl">🍂</span>
+                <span class="text-[7px] md:text-[9px] font-extrabold text-pastelLila-600 uppercase">F. Lútea</span>
+              </button>
+              <button onclick="seleccionarFaseCiclo(2)" id="rueda-btn-2" class="bg-pastelMint-100 hover:bg-pastelMint-200 transition-all flex flex-col items-center justify-center border border-white p-2">
+                <span class="text-xl md:text-2xl">🌸</span>
+                <span class="text-[7px] md:text-[9px] font-extrabold text-pastelMint-600 uppercase">Ovulación</span>
+              </button>
+            </div>
+            <!-- Centro de la rueda -->
+            <div class="absolute w-16 h-16 md:w-20 md:h-20 bg-white rounded-full flex flex-col items-center justify-center shadow-md border-2 border-pastelPink-300">
+              <span id="center-wheel-emoji" class="text-xl md:text-3xl animate-bounce">🩸</span>
+              <span class="text-[6px] md:text-[8px] font-extrabold text-pastelPink-500 uppercase">Fase</span>
+            </div>
+          </div>
+
+          <!-- Cuadro de datos de la fase seleccionada -->
+          <div id="fase-info-panel" class="w-full bg-white p-3 md:p-4 rounded-xl md:rounded-2xl border border-pastelPink-200 text-[11px] md:text-xs text-slate-700 space-y-1.5 md:space-y-2"></div>
+        </div>
+
+        <!-- Lado Derecho: Mi Ficha de Cuidado de Hoy -->
+        <div class="lg:col-span-7 flex flex-col gap-3 md:gap-4">
+          <div class="bg-white rounded-2xl md:rounded-3xl p-4 md:p-5 border-2 border-pastelLila-200 shadow-sm relative overflow-hidden" id="card-care-view">
+            <!-- Decorados de Flores -->
+            <span class="absolute top-1 right-1 text-lg opacity-35">🌸</span>
+            <span class="absolute bottom-1 left-1 text-lg opacity-35">🌼</span>
+
+            <div class="border-b border-pastelLila-100 pb-2 mb-3 text-center">
+              <h5 class="text-base md:text-lg font-extrabold text-pastelPink-500">Mi Ficha de Autocuidado Diario</h5>
+            </div>
+
+            <div class="space-y-2.5 md:space-y-3 text-[11px] md:text-xs">
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">✍/ Apodo o Nombre:</label>
+                <input type="text" id="ficha-name" placeholder="Escribe tu nombre..." class="w-full px-2 py-1.5 md:px-3 md:py-2 rounded-lg md:rounded-xl border border-slate-200 text-[10px] md:text-xs font-semibold focus:outline-none focus:border-pastelPink-400">
+              </div>
+
+              <!-- Clima Emocional -->
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">🚦 Mi Clima Emocional hoy:</label>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-1 md:gap-1.5">
+                  <button onclick="seleccionarFichaClima('sunny')" id="f-clima-sunny" class="py-1.5 px-1 bg-white hover:bg-pastelYellow-100 border border-pastelYellow-300 rounded-lg text-center font-bold text-[9px] md:text-[10px] transition-all">
+                    ☀️ Alegre
+                  </button>
+                  <button onclick="seleccionarFichaClima('cloudy')" id="f-clima-cloudy" class="py-1.5 px-1 bg-white hover:bg-pastelLila-100 border border-pastelLila-300 rounded-lg text-center font-bold text-[9px] md:text-[10px] transition-all">
+                    ☁️ Sensible
+                  </button>
+                  <button onclick="seleccionarFichaClima('rainy')" id="f-clima-rainy" class="py-1.5 px-1 bg-white hover:bg-pastelPink-100 border border-pastelPink-300 rounded-lg text-center font-bold text-[9px] md:text-[10px] transition-all">
+                    🌧️ Cansada
+                  </button>
+                  <button onclick="seleccionarFichaClima('windy')" id="f-clima-windy" class="py-1.5 px-1 bg-white hover:bg-pastelMint-100 border border-pastelMint-300 rounded-lg text-center font-bold text-[9px] md:text-[10px] transition-all">
+                    🍃 Cólicos
+                  </button>
+                </div>
+              </div>
+
+              <!-- Mimos de hoy -->
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">🎁 3 Regalos de Amor Propio para hoy:</label>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-1 md:gap-1 bg-slate-50 p-2 md:p-2.5 rounded-xl border border-slate-100">
+                  <label class="flex items-center gap-2 cursor-pointer font-semibold text-[10px] md:text-[11px]">
+                    <input type="checkbox" id="mimo-1" class="accent-pastelPink-500"> 💧 Tomar agua y comer rico
+                  </label>
+                  <label class="flex items-center gap-2 cursor-pointer font-semibold text-[10px] md:text-[11px]">
+                    <input type="checkbox" id="mimo-2" class="accent-pastelPink-500"> 🛏️ Descansar y dormir temprano
+                  </label>
+                  <label class="flex items-center gap-2 cursor-pointer font-semibold text-[10px] md:text-[11px]">
+                    <input type="checkbox" id="mimo-3" class="accent-pastelPink-500"> 🧘‍♀️ Ejercicios o respiraciones
+                  </label>
+                  <label class="flex items-center gap-2 cursor-pointer font-semibold text-[10px] md:text-[11px]">
+                    <input type="checkbox" id="mimo-4" class="accent-pastelPink-500"> 🎨 Dibujar, leer o jugar
+                  </label>
+                </div>
+              </div>
+
+              <!-- Sticker de hoy -->
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">✨ Mi Sticker de hoy:</label>
+                <div class="flex flex-row gap-2 items-center">
+                  <select id="ficha-sticker-select" onchange="actualizarFichaSticker()" class="flex-grow px-2 py-1.5 md:px-3 md:py-2 text-[10px] md:text-xs rounded-lg md:rounded-xl border border-slate-200 font-semibold focus:outline-none">
+                    <option value="🩸">Gotita Sabia me acompaña 🩸</option>
+                    <option value="🌟">Brillo en mis días 🌟</option>
+                    <option value="💖">Mi cuerpo es sabio 💖</option>
+                    <option value="🦋">Libre y feliz 🦋</option>
+                    <option value="☁️">Soy mi propia calma ☁️</option>
+                  </select>
+                  <!-- Visualizador rápido del sticker seleccionado -->
+                  <div class="w-10 h-10 md:w-12 md:h-12 bg-pastelPink-100 rounded-xl border border-pastelPink-200 flex items-center justify-center text-xl md:text-2xl shrink-0" id="ficha-sticker-preview">🩸</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Acciones de Ficha (Nuevas: Bitácora y Copiar) -->
+          <div class="flex flex-col sm:flex-row justify-center gap-2 md:gap-3 mt-1">
+            <button onclick="guardarEnBitacora()" class="w-full sm:w-auto bg-pastelLila-500 hover:bg-pastelLila-600 text-white font-bold text-[11px] md:text-xs px-4 py-2.5 rounded-xl transition-all flex items-center justify-center gap-1.5 shadow-sm">
+              <i class="fa-solid fa-book-bookmark animate-pulse"></i> Guardar en mi Bitácora
+            </button>
+            <button onclick="copiarResumenFicha()" class="w-full sm:w-auto bg-white border-2 border-pastelLila-200 text-pastelLila-600 hover:bg-pastelLila-50 font-bold text-[11px] md:text-xs px-4 py-2 rounded-xl transition-all flex items-center justify-center gap-1.5 shadow-sm">
+              <i class="fa-solid fa-copy"></i> Copiar Resumen
+            </button>
+          </div>
+
+          <!-- Historial de Bitácora -->
+          <div class="mt-2 md:mt-4 border-t border-slate-200 pt-3 md:pt-4">
+            <h6 class="text-[11px] md:text-sm font-bold text-pastelPink-500 mb-2 flex items-center gap-2">
+              <i class="fa-solid fa-box-archive text-pastelPink-400"></i> Mi Historial de Autocuidado
+            </h6>
+            <div id="bitacora-list" class="space-y-1.5 md:space-y-2 max-h-[140px] md:max-h-[160px] overflow-y-auto pr-1 md:pr-2">
+              <!-- Generado dinámicamente por JS -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL RECURSO: PLANILLA DE 40 STICKERS / MEMORAMA -->
+  <div id="modal-premio-stickers" class="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-3xl w-full p-4 md:p-6 shadow-2xl border-2 border-pastelPeach-300 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-slate-200 pb-2 md:pb-3 mb-3 md:mb-4 font-cozy">
+        <h4 class="text-base md:text-lg font-bold text-pastelPink-500 flex items-center gap-2">
+          <i class="fa-solid fa-gamepad text-pastelPeach-500 animate-bounce"></i> Memorama de Autocuidado
+        </h4>
+        <button onclick="cerrarMemorama()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <p class="text-[10px] md:text-xs text-slate-700 mb-2 md:mb-3 font-semibold text-center bg-pastelLila-100 p-2 md:p-2.5 rounded-xl border border-pastelLila-200 max-w-lg mx-auto">
+        🧠 ¡Pon a prueba tu memoria! Encuentra los <strong class="text-pastelPink-500">13 pares de stickers</strong> idénticos. <strong class="text-pastelPink-600">¡Cuidado, solo tienes 35 movimientos!</strong>
+      </p>
+
+      <div class="text-center mb-3 md:mb-4">
+        <span id="memorama-stats" class="inline-block bg-pastelPeach-100 text-pastelPeach-600 font-bold text-[10px] md:text-sm px-3 md:px-4 py-1 md:py-1.5 rounded-full border border-pastelPeach-200 shadow-sm">
+          Movimientos: 0/35 | Pares: 0/13
+        </span>
+      </div>
+
+      <!-- Tablero de Cartas (Grid responsivo adaptado para 26 cartas) -->
+      <div id="memorama-board" class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 gap-1.5 md:gap-3 p-2 md:p-4 border-2 border-dashed border-pastelPeach-300 rounded-2xl md:rounded-3xl bg-pastelPeach-50 max-w-2xl mx-auto bg-white"></div>
+
+      <!-- BOTONES DE ACCIÓN -->
+      <div class="mt-4 md:mt-6 pt-3 md:pt-4 border-t border-slate-200 flex flex-col sm:flex-row justify-center gap-2 md:gap-4">
+        <button onclick="iniciarMemorama()" class="w-full sm:w-auto bg-pastelPink-500 hover:bg-pastelPink-600 text-white font-bold text-xs md:text-sm px-6 py-2.5 rounded-xl transition-all shadow-sm flex items-center justify-center gap-2">
+          <i class="fa-solid fa-rotate-right"></i> Reiniciar
+        </button>
+        <button onclick="cerrarMemorama()" class="w-full sm:w-auto bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs md:text-sm px-6 py-2.5 rounded-xl transition-all shadow-sm">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LÓGICA DEL JUEGO EN JAVASCRIPT -->
+  <script>
+    let playerName = "Exploradora";
+    let gameMode = "learning"; // 'learning' o 'challenge'
+    let currentQuestionIndex = 0;
+    let lives = 3;
+    let selectedCommitmentText = "Prometo cuidar con mucho amor de mí misma y de mi ciclo.";
+    let activeFaseIndex = 0; // Para la rueda del ciclo
+    let fichaClimaSeleccionado = 'sunny'; // Clima de hoy
+
+    // --- BASE DE DATOS DE LAS 15 PREGUNTAS (CORREGIDAS Y VERIFICADAS) ---
+    const questionsDatabase = [
+      {
+        question: "¿Qué es exactamente la menstruación?",
+        options: [
+          "Una enfermedad de corta duración.",
+          "Un sangrado natural del cuerpo que indica que estás creciendo.",
+          "Un proceso causado por la mala alimentación.",
+          "Una limpieza de los riñones."
+        ],
+        correctIndex: 1,
+        note: "¡Señal de salud! Es una bonita muestra de que tu cuerpo está sano y funcionando de maravilla en su paso hacia la adolescencia."
+      },
+      {
+        question: "¿Aproximadamente a qué edad suele llegar la primera menstruación (también llamada menarquia)?",
+        options: [
+          "Exactamente a los 10 años en todos los casos.",
+          "A los 18 años, cuando ya eres mayor de edad.",
+          "Usualmente entre los 8 y los 15 años.",
+          "A los 5 años."
+        ],
+        correctIndex: 2,
+        note: "Cada cuerpo tiene su propio reloj; algunas son más tempraneras y otras tardan un poco más, y ambos casos están perfectos."
+      },
+      {
+        question: "De qué parte del cuerpo viene la sangre menstrual?",
+        options: [
+          "De la vejiga (por donde hacemos pipí).",
+          "Del estómago o los intestinos.",
+          "Del útero, saliendo a través de la vagina.",
+          "De los riñones."
+        ],
+        correctIndex: 2,
+        note: "El canal por donde sale la orina y por donde sale la menstruación son caminitos biológicos completamente diferentes. ¡La sangre viene del útero!"
+      },
+      {
+        question: "Una vez que tienes tu primera menstruación, ¿sangras todos los días de tu vida?",
+        options: [
+          "No, suele venir una vez al mes y dura entre 3 y 7 días.",
+          "Sí, todos los días un poquito.",
+          "Solo pasa una vez al año, como tu cumpleaños.",
+          "Pasa solamente los fines de semana."
+        ],
+        correctIndex: 0,
+        note: "Es un proceso cíclico. La mayor parte del mes no estarás menstruando, dándole espacio a tu cuerpo para prepararse nuevamente."
+      },
+      {
+        question: "¿Qué es el útero?",
+        options: [
+          "Un hueso que está en la cadera.",
+          "El lugar donde se digiere la comida que comemos.",
+          "Un músculo en forma de pera invertida donde se forma la sangre menstrual.",
+          "Una parte del corazón."
+        ],
+        correctIndex: 2,
+        note: "¡Es un músculo súper fuerte! Crea un colchoncito suave cada mes para cuidar de una posible vida, y si no se usa, el cuerpo lo suelta."
+      },
+      {
+        question: "¿Cuál de las siguientes opciones NO es un producto para la menstruación?",
+        options: [
+          "Toalla sanitaria (o compresa).",
+          "Copa menstrual.",
+          "Curita o tirita.",
+          "Calzón menstrual."
+        ],
+        correctIndex: 2,
+        note: "Las curitas son para pequeñas heridas externas en la piel, no para recolectar el flujo menstrual."
+      },
+      {
+        question: "Si usas una toalla sanitaria desechable, ¿cada cuánto tiempo es recomendable cambiarla por una limpia?",
+        options: [
+          "Cada 4 a 6 horas, o antes si la sientes llena.",
+          "Solo una vez al día, antes de dormir.",
+          "Cada 10 minutos para estar seguras.",
+          "Solo cuando te bañas."
+        ],
+        correctIndex: 0,
+        note: "Mantener tu toalla fresca y cambiada te ayudará a evitar bacterias, olores y a cuidar tu delicada piel de la irritación."
+      },
+      {
+        question: "Si te baja la menstruación en la escuela y no traes una toallita, ¿qué es lo más inteligente que puedes hacer?",
+        options: [
+          "Esconderme en el baño y llorar.",
+          "Pedirle ayuda a una maestra, enfermera, amiga o mamá de confianza.",
+          "Irme caminando a mi casa sin avisar.",
+          "Aguantar la respiración."
+        ],
+        correctIndex: 1,
+        note: "¡Tu red de apoyo siempre te acompaña! A todas las mujeres les ha pasado algún imprevisto y siempre habrá alguien lista para auxiliarte."
+      },
+      {
+        question: "¿Cómo se debe tirar a la basura una toalla sanitaria desechable usada?",
+        options: [
+          "Se tira directamente por el inodoro (el excusado).",
+          "Se lava en el lavabo con agua y jabón.",
+          "Se envuelve en un poco de papel higiénico y se tira en el bote de basura.",
+          "Se guarda en la mochila."
+        ],
+        correctIndex: 2,
+        note: "Nunca tires toallas sanitarias al inodoro ya que tapan las cañerías. Envolverla en papel es higiénico y empático para todos."
+      },
+      {
+        question: "Además de los productos que se tiran a la basura, ¿existen opciones ecológicas que se lavan y se vuelven a usar?",
+        options: [
+          "No, todo se tiene que tirar siempre a la basura.",
+          "Sí, como los calzones menstruales, las toallas de tela y las copas.",
+          "Solo si usas algodón normal.",
+          "Aún no se ha inventado nada así."
+        ],
+        correctIndex: 1,
+        note: "¡Son amigables con el planeta y tu salud! Los calzones menstruales, copas y toallas de tela son excelentes alternativas modernas."
+      },
+      {
+        question: "¿Es normal sentir 'cólicos' (un dolorcito como un calambre en la parte baja de la panza) durante esos días?",
+        options: [
+          "No, significa que te enfermaste del estómago.",
+          "Sí, es el músculo del útero trabajando (contrayéndose), y hay formas de aliviarlo.",
+          "Solo te dan cólicos si comes comida chatarra.",
+          "Sí, pero te tienes que aguantar el dolor sin hacer nada."
+        ],
+        correctIndex: 1,
+        note: "Es el útero ejercitándose para expulsar el tejido menstrual. Es común, pero no debes sufrir; si duele en exceso, pide ayuda médica."
+      },
+      {
+        question: "¿Qué truco puede ayudarte a sentirte mejor si tienes cólicos?",
+        options: [
+          "Comer mucho hielo.",
+          "Ponerte una bolsita de agua calientita en el vientre y descansar un rato.",
+          "Brincar la cuerda lo más rápido posible.",
+          "Aguantar la respiración por un minuto."
+        ],
+        correctIndex: 1,
+        note: "El calor relaja las fibras musculares del útero. Un baño tibio, té caliente y descanso te darán un gran alivio."
+      },
+      {
+        question: "A veces, antes o durante la menstruación, puedes sentirte con ganas de llorar por cualquier cosa o un poco irritable. ¿A qué se debe esto?",
+        options: [
+          "A que no dormiste tus 8 horas.",
+          "A que tienes hambre.",
+          "A los cambios en las 'hormonas', que son mensajeros químicos naturales del cuerpo.",
+          "Es pura imaginación, eso no pasa."
+        ],
+        correctIndex: 2,
+        note: "Las emociones y las hormonas caminan de la mano. Sentirse sensible es perfectamente biológico, normal y parte de ser humana."
+      },
+      {
+        question: "Un mito muy antiguo dice que no puedes bañarte, lavarte el pelo ni nadar cuando tienes la menstruación. ¿Esto es verdad?",
+        options: [
+          "¡Totalmente falso! Bañarte te ayuda a sentirte limpia, relajada y puedes hacer cualquier actividad.",
+          "Es verdad, el agua te puede hacer daño.",
+          "Es verdad, pero solo si te bañas con agua fría.",
+          "Puedes bañarte, pero está prohibido lavarse el cabello."
+        ],
+        correctIndex: 0,
+        note: "¡El agua es tu mejor aliada! Mantener tu higiene habitual te refresca, relaja tus músculos y eleva tu estado de ánimo."
+      },
+      {
+        question: "Si un día ves en la escuela que a una amiga (o a ti misma) se le manchó la ropa de sangre, ¿cuál es la mejor actitud?",
+        options: [
+          "Burlarme, señalarla o reírme a escondidas.",
+          "Sentir mucha vergüenza, llorar y no volver a la escuela.",
+          "Actuar con empatía, avisarle en secreto, prestarle un suéter para amarrarse a la cintura y recordar que a todas nos puede pasar.",
+          "Hacer como que no vi nada y dejar que todos los demás se den cuenta."
+        ],
+        correctIndex: 2,
+        note: "¡La sororidad es la Norma de Oro! Cuidar de nuestras amigas y de nosotras ante un accidente es el mayor premio de madurez."
+      }
+    ];
+
+    // --- ESCALA DE INSIGNIAS Y NIVELES ---
+    const levelBorders = [
+      { text: "Maestra del Autocuidado 👑", minQ: 14, icon: "👑" },
+      { text: "Experta ⭐", minQ: 12, icon: "⭐" },
+      { text: "Conocedora 💡", minQ: 5, icon: "💡" },
+      { text: "Curiosa 🌸", minQ: 0, icon: "🌸" }
+    ];
+
+    // --- BASE DE DATOS DE LAS 4 FASES DE LA RUEDA ---
+    const fasesCicloDatabase = [
+      {
+        nombre: "Fase Menstrual 🩸",
+        estacion: "Estación: Invierno",
+        rango: "Aproximadamente: Días 1 al 5",
+        bio: "Tu útero se despide del tejido esponjoso que creó el mes anterior. Es un proceso biológico que limpia tu útero y demuestra que tu cuerpo funciona con normalidad.",
+        emocional: "Es común sentir ganas de descansar, introspección y necesitar mimos. Tu cuerpo requiere más calorías e hidratación caliente.",
+        mimo: "☕ Prepárate un té calientito, abraza un peluche o ponte una bolsita de agua caliente en la pancita."
+      },
+      {
+        nombre: "Fase Folicular 🌱",
+        estacion: "Estación: Primavera",
+        rango: "Aproximadamente: Días 6 al 11",
+        bio: "Las hormonas estrógenos comienzan a subir. Tu cerebro le avisa a tu ovario que empiece a preparar un óvulo nuevo dentro de un saquito llamado folículo.",
+        emocional: "Te sentirás con mayor energía, curiosidad y creatividad para emprender nuevas tareas, estudiar o practicar deportes.",
+        mimo: "🎨 Inicia un proyecto nuevo, dibuja, lee un libro emocionante o juega con tus amigas al aire libre."
+      },
+      {
+        nombre: "Fase Ovulatoria 🌸",
+        estacion: "Estación: Verano",
+        rango: "Aproximadamente: Días 12 al 16",
+        bio: "El óvulo maduro sale del ovario hacia las trompas uterinas. Tus estrógenos están en su punto más alto, lo que fortalece tu piel y tus defensas.",
+        emocional: "Es la fase más expresiva y sociable del ciclo. Te resultará más fácil comunicarte, exponer en clase y compartir ideas.",
+        mimo: "🎤 Practica un discurso, habla en público, haz una videollamada divertida o comparte tiempo en familia."
+      },
+      {
+        nombre: "Fase Lútea 🍂",
+        estacion: "Estación: Otoño",
+        rango: "Aproximadamente: Días 17 al 28",
+        bio: "La hormona progesterona toma el mando. Si el óvulo no es fecundado, la progesterona disminuye, avisándole al útero que pronto iniciará el ciclo de nuevo.",
+        emocional: "Tus niveles de energía descienden paulatinamente. Es la etapa donde pueden aparecer antojos dulces y necesitas más paciencia.",
+        mimo: "🧘‍♀️ Haz respiraciones suaves con la burbuja de Gotita Sabia, estírate con calma y escribe un diario con tus pensamientos."
+      }
+    ];
+
+    // --- BASE DE DATOS DE LOS 40 STICKERS ---
+    const stickersDatabase = [
+      { id: "luna", text: "Gotita Sabia me acompaña", emoji: "🩸", color: "bg-pastelPink-100 border-pastelPink-300 text-pastelPink-600" },
+      { id: "heart", text: "Mi cuerpo es sabio", emoji: "💖", color: "bg-pastelLila-100 border-pastelLila-300 text-pastelLila-600" },
+      { id: "cycle", text: "Abrazo mi ciclo", emoji: "🤗", color: "bg-pastelPeach-100 border-pastelPeach-300 text-pastelPeach-600" },
+      { id: "plant", text: "Crezco con amor", emoji: "🌿", color: "bg-pastelMint-100 border-pastelMint-300 text-pastelMint-600" },
+      { id: "rayo", text: "Poder menstrual", emoji: "⚡", color: "bg-pastelPink-100 border-pastelPink-300 text-pastelPink-600" },
+      { id: "star", text: "Brillo en mis días", emoji: "🌟", color: "bg-pastelYellow-100 border-pastelYellow-300 text-pastelYellow-600" },
+      { id: "hands", text: "Red de apoyo", emoji: "🤝", color: "bg-pastelLila-100 border-pastelLila-300 text-pastelLila-600" },
+      { id: "cup", text: "Dulce conmigo", emoji: "🍫", color: "bg-pastelMint-100 border-pastelMint-300 text-pastelMint-600" },
+      { id: "shield", text: "Me cuido siempre", emoji: "🦸‍♀️", color: "bg-pastelPink-100 border-pastelPink-300 text-pastelPink-600" },
+      { id: "butterfly", text: "Libre y feliz", emoji: "🦋", color: "bg-pastelPeach-100 border-pastelPeach-300 text-pastelPeach-600" },
+      { id: "bubble", text: "Sin tabúes", emoji: "💬", color: "bg-pastelLila-100 border-pastelLila-300 text-pastelLila-600" },
+      { id: "bandaid", text: "Sana y segura", emoji: "🩹", color: "bg-pastelMint-100 border-pastelMint-300 text-pastelMint-600" },
+      { id: "moonsun", text: "Cada fase es hermosa", emoji: "🌞", color: "bg-pastelPink-100 border-pastelPink-300 text-pastelPink-600" },
+      { id: "cloud", text: "Soy mi propia calma", emoji: "☁️", color: "bg-pastelYellow-100 border-pastelYellow-300 text-pastelYellow-600" },
+      { id: "infinity", text: "Empatía infinita", emoji: "🌈", color: "bg-pastelLila-100 border-pastelLila-300 text-pastelLila-600" },
+      { id: "uterus", text: "Fuerte y tierna", emoji: "🌷", color: "bg-pastelMint-100 border-pastelMint-300 text-pastelMint-600" },
+      { id: "headphones", text: "Me escucho hoy", emoji: "🎶", color: "bg-pastelPink-100 border-pastelPink-300 text-pastelPink-600" },
+      { id: "hourglass", text: "Camino a mi ritmo", emoji: "⏳", color: "bg-pastelPeach-100 border-pastelPeach-300 text-pastelPeach-600" },
+      { id: "kit", text: "Mi ciclo es salud", emoji: "❤️‍🩹", color: "bg-pastelLila-100 border-pastelLila-300 text-pastelLila-600" },
+      { id: "mirror", text: "Amor propio", emoji: "✨", color: "bg-pastelMint-100 border-pastelMint-300 text-pastelMint-600" },
+      { id: "waterbottle", text: "Cálida compresa", emoji: "♨️", color: "bg-pastelPink-100 border-pastelPink-300 text-pastelPink-600" },
+      { id: "sisterhood", text: "Sororidad escolar", emoji: "👯‍♀️", color: "bg-pastelLila-100 border-pastelLila-300 text-pastelLila-600" },
+      { id: "wave", text: "Fluyo con el agua", emoji: "🌊", color: "bg-pastelMint-100 border-pastelMint-300 text-pastelMint-600" },
+      { id: "uterushappy", text: "Útero feliz", emoji: "🥰", color: "bg-pastelPink-100 border-pastelPink-300 text-pastelPink-600" },
+      { id: "feet", text: "Paso a pasito", emoji: "👟", color: "bg-pastelPeach-100 border-pastelPeach-300 text-pastelPeach-600" },
+      { id: "lightbulb", text: "Ideas que brillan", emoji: "💡", color: "bg-pastelYellow-100 border-pastelYellow-300 text-pastelYellow-600" },
+      { id: "lotus", text: "Paz en mi interior", emoji: "🪷", color: "bg-pastelMint-100 border-pastelMint-300 text-pastelMint-600" },
+      { id: "waterglass", text: "Pura hidratación", emoji: "🍉", color: "bg-pastelPeach-100 border-pastelPeach-300 text-pastelPeach-600" },
+      { id: "goddess", text: "Diosa interior", emoji: "👑", color: "bg-pastelLila-100 border-pastelLila-300 text-pastelLila-600" },
+      { id: "notebook", text: "Escribo mis días", emoji: "📖", color: "bg-pastelPink-100 border-pastelPink-300 text-pastelPink-600" },
+      { id: "battery", text: "Energía amable", emoji: "🔋", color: "bg-pastelYellow-100 border-pastelYellow-300 text-pastelYellow-600" },
+      { id: "balloon", text: "Suave suspiro", emoji: "🎈", color: "bg-pastelMint-100 border-pastelMint-300 text-pastelMint-600" },
+      { id: "raincloud", text: "Mi lluvia limpia", emoji: "☔", color: "bg-pastelPink-100 border-pastelPink-300 text-pastelPink-600" },
+      { id: "earth", text: "Soy naturaleza", emoji: "🌱", color: "bg-pastelPeach-100 border-pastelPeach-300 text-pastelPeach-600" },
+      { id: "galaxy", text: "Universo cíclico", emoji: "🌌", color: "bg-pastelLila-100 border-pastelLila-300 text-pastelLila-600" },
+      { id: "crystal", text: "Gema de calma", emoji: "💎", color: "bg-pastelMint-100 border-pastelMint-300 text-pastelMint-600" },
+      { id: "apple", text: "Fruto de salud", emoji: "🍎", color: "bg-pastelPeach-100 border-pastelPeach-300 text-pastelPeach-600" },
+      { id: "daisy", text: "Hermosa flor", emoji: "🌻", color: "bg-pastelYellow-100 border-pastelYellow-300 text-pastelYellow-600" },
+      { id: "mask", text: "Descanso tierno", emoji: "😴", color: "bg-pastelLila-100 border-pastelLila-300 text-pastelLila-600" },
+      { id: "venus", text: "Orgullo de mí", emoji: "🦄", color: "bg-pastelPink-100 border-pastelPink-300 text-pastelPink-600" }
+    ];
+
+    let jokerUsed = { half: false, aliada: false, oraculo: false };
+    let audioCtx = null;
+
+    // --- LÓGICA DE AUDIO SINTETIZADO ---
+    function iniciarContextoAudio() {
+      try {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+      } catch (e) {
+        console.warn("AudioContext block:", e);
+      }
+    }
+
+    function playBeep(freq, type, duration, vol = 0.15) {
+      try {
+        iniciarContextoAudio();
+        if (!audioCtx) return;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.type = type;
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {}
+    }
+
+    function playSuccessSound() {
+      playBeep(523.25, 'triangle', 0.12, 0.2); 
+      setTimeout(() => playBeep(659.25, 'triangle', 0.12, 0.2), 80); 
+      setTimeout(() => playBeep(783.99, 'triangle', 0.25, 0.25), 160); 
+    }
+
+    function playFailureSound() {
+      playBeep(293.66, 'sawtooth', 0.25, 0.15); 
+      setTimeout(() => playBeep(220.00, 'sawtooth', 0.35, 0.15), 120); 
+    }
+
+    function playPopSound() {
+      playBeep(450, 'sine', 0.1, 0.15);
+    }
+
+    // --- TOASTS NOTIFICACIONES ---
+    function showCuteToast(message) {
+      const toast = document.getElementById("cute-toast");
+      const text = document.getElementById("cute-toast-text");
+      text.innerText = message;
+      toast.classList.remove("opacity-0", "pointer-events-none", "scale-90");
+      toast.classList.add("opacity-100", "scale-100");
+      playBeep(880, 'sine', 0.15, 0.12);
+      setTimeout(() => {
+        toast.classList.add("opacity-0", "pointer-events-none", "scale-90");
+        toast.classList.remove("opacity-100", "scale-100");
+      }, 3000);
+    }
+
+    // --- TEXT TO SPEECH (ACCESIBILIDAD) ---
+    let speechInstance = null;
+    function speakText(textToSpeak) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        speechInstance = new SpeechSynthesisUtterance(textToSpeak);
+        speechInstance.lang = 'es-MX';
+        const voices = window.speechSynthesis.getVoices();
+        const preferredVoice = voices.find(v => v.lang.includes('es-MX') || v.lang.includes('es-ES'));
+        if (preferredVoice) speechInstance.voice = preferredVoice;
+        speechInstance.rate = 1.0;
+        speechInstance.pitch = 1.1; 
+        window.speechSynthesis.speak(speechInstance);
+      } else {
+        showCuteToast("Tu dispositivo no soporta lectura por voz.");
+      }
+    }
+
+    function leerTextoPregunta() {
+      const q = questionsDatabase[currentQuestionIndex];
+      speakText(`${q.question}. Opción A: ${q.options[0]}. Opción B: ${q.options[1]}. Opción C: ${q.options[2]}. Opción D: ${q.options[3]}.`);
+    }
+
+    function leerTextoFeedback() {
+      const q = questionsDatabase[currentQuestionIndex];
+      speakText(q.note);
+    }
+
+    // --- SELECCIÓN DE MODO DE JUEGO ---
+    function setMode(mode) {
+      gameMode = mode;
+      const btnLearn = document.getElementById("btn-mode-learn");
+      const btnChallenge = document.getElementById("btn-mode-challenge");
+      
+      if (mode === 'learning') {
+        btnLearn.className = "flex-1 py-2 px-1 md:px-3 rounded-xl border-2 border-pastelMint-500 bg-pastelMint-100 font-bold text-[10px] md:text-xs text-slate-700 hover:bg-pastelMint-200 transition-all flex items-center justify-center gap-1 shadow-sm animate-gotita-float";
+        btnLearn.style.animationDuration = "4s";
+        btnChallenge.className = "flex-1 py-2 px-1 md:px-3 rounded-xl border border-slate-300 bg-white font-bold text-[10px] md:text-xs text-slate-700 hover:border-pastelPink-400 transition-all flex items-center justify-center gap-1 shadow-sm animate-gotita-float";
+        btnChallenge.style.animationDuration = "5s";
+        document.getElementById("lives-card").classList.add("hidden");
+        showCuteToast("¡Activado el Modo Aprendizaje sin presiones!");
+      } else {
+        btnChallenge.className = "flex-1 py-2 px-1 md:px-3 rounded-xl border-2 border-pastelPink-500 bg-pastelPink-100 font-bold text-[10px] md:text-xs text-slate-700 hover:bg-pastelPink-200 transition-all flex items-center justify-center gap-1 shadow-sm animate-gotita-float";
+        btnChallenge.style.animationDuration = "5s";
+        btnLearn.className = "flex-1 py-2 px-1 md:px-3 rounded-xl border border-slate-300 bg-white font-bold text-[10px] md:text-xs text-slate-700 hover:border-pastelMint-400 transition-all flex items-center justify-center gap-1 shadow-sm animate-gotita-float";
+        btnLearn.style.animationDuration = "4s";
+        document.getElementById("lives-card").classList.remove("hidden");
+        showCuteToast("¡Modo Desafío con 3 vidas activado!");
+      }
+      playPopSound();
+    }
+
+    // --- INICIAR JUEGO ---
+    function iniciarJuego() {
+      const inputName = document.getElementById("player-name").value.trim();
+      playerName = inputName ? inputName : "Exploradora";
+      
+      currentQuestionIndex = 0;
+      lives = 3;
+      jokerUsed = { half: false, aliada: false, oraculo: false };
+      
+      document.getElementById("header-stats").classList.remove("hidden");
+      document.getElementById("screen-intro").classList.add("hidden");
+      document.getElementById("screen-game").classList.remove("hidden");
+      document.getElementById("screen-victory").classList.add("hidden");
+      
+      habilitarComodinesUI();
+      renderCorazones();
+      renderEscalaPremios();
+      cargarPregunta();
+      
+      actualizarGotitaCara('idle');
+      cambiarBurbujaGotita(`"¡Qué alegría jugar contigo, ${playerName}! Comencemos."`);
+      
+      playBeep(880, 'sine', 0.3);
+    }
+
+    // --- CARGAR PREGUNTA ACTIVA ---
+    function cargarPregunta() {
+      const questionData = questionsDatabase[currentQuestionIndex];
+      
+      document.getElementById("progress-display").innerText = `${currentQuestionIndex + 1} / 15`;
+      const currentInsignia = getInsigniaForQuestion(currentQuestionIndex);
+      document.getElementById("badge-display").innerText = currentInsignia;
+
+      const levelBadge = document.getElementById("level-badge");
+      if (currentQuestionIndex < 5) {
+        levelBadge.innerText = "Nivel 1: Conceptos Básicos (Curiosa)";
+        levelBadge.className = "self-start text-[10px] md:text-xs font-extrabold px-2.5 py-1 bg-pastelPink-100 text-pastelPink-600 rounded-full uppercase tracking-wider border border-pastelPink-200";
+      } else if (currentQuestionIndex < 10) {
+        levelBadge.innerText = "Nivel 2: Higiene y Cuidado (Conocedora)";
+        levelBadge.className = "self-start text-[10px] md:text-xs font-extrabold px-2.5 py-1 bg-pastelLila-100 text-pastelPink-500 rounded-full uppercase tracking-wider border border-pastelLila-200";
+      } else if (currentQuestionIndex < 13) {
+        levelBadge.innerText = "Nivel 3: Emociones y Ciclos (Conocedora)";
+        levelBadge.className = "self-start text-[10px] md:text-xs font-extrabold px-2.5 py-1 bg-pastelPeach-100 text-pastelPink-500 rounded-full uppercase tracking-wider border border-pastelPeach-200";
+      } else {
+        levelBadge.innerText = "Nivel 4: Rompiendo Tabúes (Experta)";
+        levelBadge.className = "self-start text-[10px] md:text-xs font-extrabold px-2.5 py-1 bg-pastelMint-100 text-pastelPink-500 rounded-full uppercase tracking-wider border border-pastelMint-200";
+      }
+
+      document.getElementById("question-text").innerText = questionData.question;
+
+      const optionsPanel = document.getElementById("options-panel");
+      optionsPanel.innerHTML = "";
+      
+      const optionStyles = [
+        { box: "hover:bg-pastelPink-100 border-pastelPink-200", letterBg: "bg-pastelPink-100", letterText: "text-pastelPink-600" },
+        { box: "hover:bg-pastelMint-100 border-pastelMint-200", letterBg: "bg-pastelMint-100", letterText: "text-pastelMint-600" },
+        { box: "hover:bg-pastelLila-100 border-pastelLila-200", letterBg: "bg-pastelLila-100", letterText: "text-pastelLila-600" },
+        { box: "hover:bg-pastelPeach-100 border-pastelPeach-200", letterBg: "bg-pastelPeach-100", letterText: "text-pastelPeach-600" }
+      ];
+      
+      questionData.options.forEach((opt, index) => {
+        const letter = String.fromCharCode(65 + index); 
+        const style = optionStyles[index % 4];
+        const btn = document.createElement("button");
+        btn.id = `opt-btn-${index}`;
+        btn.onclick = () => evaluarRespuesta(index);
+        btn.className = `w-full p-3 md:p-4 bg-white border-2 rounded-xl md:rounded-2xl text-left font-bold text-xs md:text-sm text-slate-700 transition-all flex items-center gap-2 md:gap-3 shadow-sm hover:shadow transform hover:-translate-y-0.5 active:translate-y-0 ${style.box}`;
+        btn.innerHTML = `
+          <span class="w-6 h-6 md:w-8 md:h-8 rounded-lg md:rounded-xl flex items-center justify-center font-extrabold text-[10px] md:text-xs shrink-0 ${style.letterBg} ${style.letterText}">${letter}</span>
+          <span class="flex-grow">${opt}</span>
+        `;
+        optionsPanel.appendChild(btn);
+      });
+
+      renderEscalaPremios();
+      actualizarGotitaCara('idle');
+    }
+
+    // --- EVALUAR RESPUESTA SELECCIONADA ---
+    function evaluarRespuesta(selectedIndex) {
+      const questionData = questionsDatabase[currentQuestionIndex];
+      const isCorrect = (selectedIndex === questionData.correctIndex);
+      
+      if (isCorrect) {
+        actualizarGotitaCara('correct');
+        cambiarBurbujaGotita(`"¡Excelente, ${playerName}! Sabía que elegirías con tu sabiduría de autocuidado."`);
+        playSuccessSound();
+        mostrarFeedback(true, questionData.note);
+      } else {
+        actualizarGotitaCara('incorrect');
+        cambiarBurbujaGotita(`"No te preocupes, ${playerName}. De cada error aprendemos juntas."`);
+        playFailureSound();
+
+        if (gameMode === 'challenge') {
+          lives--;
+          renderCorazones();
+          if (lives <= 0) {
+            setTimeout(() => {
+              showCuteToast("¡Te has quedado sin vidas! Inténtalo de nuevo en Modo Aprendizaje.");
+              reiniciarJuegoCompleto();
+            }, 1000);
+            return;
+          }
+        }
+        mostrarFeedback(false, questionData.note);
+      }
+    }
+
+    function mostrarFeedback(correct, noteText) {
+      const modal = document.getElementById("modal-feedback");
+      const icon = document.getElementById("feedback-icon");
+      const title = document.getElementById("feedback-title");
+      const text = document.getElementById("feedback-text");
+      
+      if (correct) {
+        icon.innerText = "🌸✨💡";
+        title.innerText = "¡Correcto!";
+        title.className = "text-xl md:text-2xl font-extrabold text-pastelPink-500";
+      } else {
+        icon.innerText = "💡🩹📖";
+        title.innerText = "¡Aprendamos juntas!";
+        title.className = "text-xl md:text-2xl font-extrabold text-pastelPeach-500";
+      }
+
+      text.innerText = noteText;
+      modal.classList.remove("hidden");
+    }
+
+    function cerrarFeedback() {
+      document.getElementById("modal-feedback").classList.add("hidden");
+      if (window.speechSynthesis) window.speechSynthesis.cancel();
+
+      currentQuestionIndex++;
+      if (currentQuestionIndex < questionsDatabase.length) {
+        cargarPregunta();
+        // Auto scroll to top of game screen for mobile so they see the next question
+        document.getElementById("screen-game").scrollIntoView({ behavior: 'smooth' });
+      } else {
+        ganarJuego();
+      }
+    }
+
+    function ganarJuego() {
+      document.getElementById("header-stats").classList.add("hidden");
+      document.getElementById("screen-game").classList.add("hidden");
+      document.getElementById("screen-victory").classList.remove("hidden");
+      
+      document.getElementById("diploma-name").innerText = playerName;
+      document.getElementById("ficha-name").value = playerName;
+      activarLluviaConfeti();
+      
+      playBeep(523, 'triangle', 0.2, 0.2);
+      setTimeout(() => playBeep(659, 'triangle', 0.2, 0.2), 150);
+      setTimeout(() => playBeep(783, 'triangle', 0.2, 0.2), 300);
+      setTimeout(() => playBeep(1046, 'triangle', 0.5, 0.25), 450);
+
+      showCuteToast(`¡Eres una Maestra del Autocuidado, ${playerName}!`);
+    }
+
+    // --- COMODÍN: 50:50 ---
+    function usar5050() {
+      if (jokerUsed.half) return;
+      
+      const q = questionsDatabase[currentQuestionIndex];
+      const correct = q.correctIndex;
+      
+      let incorrects = [0, 1, 2, 3].filter(i => i !== correct);
+      incorrects.sort(() => Math.random() - 0.5);
+      const toHide = [incorrects[0], incorrects[1]];
+
+      toHide.forEach(idx => {
+        const btn = document.getElementById(`opt-btn-${idx}`);
+        if (btn) {
+          btn.style.opacity = "0.2";
+          btn.disabled = true;
+          btn.onclick = null;
+        }
+      });
+
+      jokerUsed.half = true;
+      document.getElementById("joker-5050").classList.add("opacity-40", "cursor-not-allowed");
+      document.getElementById("joker-5050").onclick = null;
+      
+      showCuteToast("¡Comodín 50:50 activado!");
+    }
+
+    // --- COMODÍN: LLAMAR A UNA ALIADA ---
+    function usarAliada() {
+      if (jokerUsed.aliada) return;
+      document.getElementById("modal-aliada").classList.remove("hidden");
+      document.getElementById("aliada-selector").classList.remove("hidden");
+      document.getElementById("aliada-dialog").classList.add("hidden");
+      playPopSound();
+    }
+
+    function llamarAliadaEspecifica(tipo) {
+      document.getElementById("aliada-selector").classList.add("hidden");
+      document.getElementById("aliada-dialog").classList.remove("hidden");
+
+      const q = questionsDatabase[currentQuestionIndex];
+      const correctLetter = String.fromCharCode(65 + q.correctIndex);
+
+      let avatar = "👩‍⚕️";
+      let title = "Enfermera Escolar";
+      let text = "";
+
+      if (tipo === 'enfermera') {
+        avatar = "👩‍⚕️";
+        title = "Enfermera Escolar";
+        text = `"Hola ${playerName}, analizando los factores biológicos y de salud, considero con bastante certeza científica que la opción correcta es la ${correctLetter}."`;
+      } else if (tipo === 'mama') {
+        avatar = "👩‍👧";
+        title = "Tu Mamá / Tía";
+        text = `"¡Hola, mi corazón, ${playerName}! Sabes que siempre te cuidaré. Yo te aconsejo con cariño que elijas la opción ${correctLetter}, me suena muy familiar y prudente."`;
+      } else {
+        avatar = "👧🏻";
+        title = "Hermana Mayor o Amiga";
+        text = `"¡Oye, ${playerName}! De lo que platicamos el otro día con las chicas, estoy segurísima de que la respuesta correcta es la ${correctLetter}. ¡A por ella!"`;
+      }
+
+      document.getElementById("aliada-avatar").innerText = avatar;
+      document.getElementById("aliada-title").innerText = title;
+      document.getElementById("aliada-bubble-text").innerText = text;
+
+      jokerUsed.aliada = true;
+      document.getElementById("joker-aliada").classList.add("opacity-40", "cursor-not-allowed");
+      document.getElementById("joker-aliada").onclick = null;
+    }
+
+    function cerrarAliada() {
+      document.getElementById("modal-aliada").classList.add("hidden");
+    }
+
+    // --- COMODÍN: EL ORÁCULO DE CONSULTA ---
+    let oraculoTimerInterval = null;
+    function usarOraculo() {
+      if (jokerUsed.oraculo) return;
+      
+      document.getElementById("modal-oraculo").classList.remove("hidden");
+      cambiarPestañaOraculo('infografia');
+
+      let seconds = 30;
+      document.getElementById("timer-sec").innerText = seconds;
+      
+      oraculoTimerInterval = setInterval(() => {
+        seconds--;
+        document.getElementById("timer-sec").innerText = seconds;
+        if (seconds <= 0) {
+          clearInterval(oraculoTimerInterval);
+          cerrarOraculo();
+          showCuteToast("¡Se acabó el tiempo del Oráculo!");
+        }
+      }, 1000);
+
+      jokerUsed.oraculo = true;
+      document.getElementById("joker-oraculo").classList.add("opacity-40", "cursor-not-allowed");
+      document.getElementById("joker-oraculo").onclick = null;
+    }
+
+    function cambiarPestañaOraculo(tab) {
+      const tabInfo = document.getElementById("tab-infografia");
+      const tabBurbuja = document.getElementById("tab-burbuja");
+      const contentInfo = document.getElementById("oraculo-content-infografia");
+      const contentBurbuja = document.getElementById("oraculo-content-burbuja");
+
+      if (tab === 'infografia') {
+        tabInfo.className = "w-full py-2 rounded-xl bg-pastelMint-100 border-2 border-pastelMint-300 text-[10px] md:text-xs font-bold text-slate-700 transition-all";
+        tabBurbuja.className = "w-full py-2 rounded-xl bg-white border border-slate-200 text-[10px] md:text-xs font-bold text-slate-700 transition-all";
+        contentInfo.classList.remove("hidden");
+        contentBurbuja.classList.add("hidden");
+        detenerBurbujaRespiracion();
+      } else {
+        tabBurbuja.className = "w-full py-2 rounded-xl bg-pastelMint-100 border-2 border-pastelMint-300 text-[10px] md:text-xs font-bold text-slate-700 transition-all";
+        tabInfo.className = "w-full py-2 rounded-xl bg-white border border-slate-200 text-[10px] md:text-xs font-bold text-slate-700 transition-all";
+        contentBurbuja.classList.remove("hidden");
+        contentInfo.classList.add("hidden");
+        iniciarBurbujaRespiracion();
+      }
+      playPopSound();
+    }
+
+    let breathingInterval = null;
+    function iniciarBurbujaRespiracion() {
+      const sphere = document.getElementById("breathing-sphere");
+      const status = document.getElementById("breathing-status");
+      
+      const stepInhale = document.getElementById("step-inhale");
+      const stepHold = document.getElementById("step-hold");
+      const stepExhale = document.getElementById("step-exhale");
+
+      let phase = 0; 
+
+      const runPhase = () => {
+        if (!sphere) return;
+        if (phase === 0) {
+          status.innerText = "INHALA";
+          sphere.style.transform = "scale(1.25)";
+          stepInhale.className = "text-pastelPink-500 font-extrabold";
+          stepHold.className = "text-slate-400";
+          stepExhale.className = "text-slate-400";
+          phase = 1;
+        } else if (phase === 1) {
+          status.innerText = "MANTÉN";
+          sphere.style.transform = "scale(1.25)";
+          stepInhale.className = "text-slate-400";
+          stepHold.className = "text-pastelPeach-500 font-extrabold";
+          stepExhale.className = "text-slate-400";
+          phase = 2;
+        } else {
+          status.innerText = "EXHALA";
+          sphere.style.transform = "scale(0.95)";
+          stepInhale.className = "text-slate-400";
+          stepHold.className = "text-slate-400";
+          stepExhale.className = "text-pastelMint-500 font-extrabold";
+          phase = 0;
+        }
+      };
+
+      runPhase();
+      breathingInterval = setInterval(runPhase, 4000);
+    }
+
+    function detenerBurbujaRespiracion() {
+      if (breathingInterval) clearInterval(breathingInterval);
+      const sphere = document.getElementById("breathing-sphere");
+      if (sphere) sphere.style.transform = "scale(1)";
+    }
+
+    function cerrarOraculo() {
+      clearInterval(oraculoTimerInterval);
+      detenerBurbujaRespiracion();
+      document.getElementById("modal-oraculo").classList.add("hidden");
+    }
+
+    // --- LÓGICA DE LA RUEDA DEL CICLO Y INFOGRAFÍA ---
+    function abrirRuedaCiclo() {
+      document.getElementById("modal-rueda-ciclo").classList.remove("hidden");
+      seleccionarFaseCiclo(0);
+      actualizarFichaSticker();
+      renderBitacora(); // Cargar la bitácora al abrir
+    }
+
+    function cerrarRuedaCiclo() {
+      document.getElementById("modal-rueda-ciclo").classList.add("hidden");
+    }
+
+    function seleccionarFaseCiclo(index) {
+      activeFaseIndex = index;
+      const data = fasesCicloDatabase[index];
+
+      const emojis = ["🩸", "🌱", "🌸", "🍂"];
+      document.getElementById("center-wheel-emoji").innerText = emojis[index];
+
+      for (let i = 0; i < 4; i++) {
+        const btn = document.getElementById(`rueda-btn-${i}`);
+        if (btn) {
+          if (i === index) {
+            btn.classList.add("ring-4", "ring-pastelPink-500", "scale-105", "z-10");
+          } else {
+            btn.classList.remove("ring-4", "ring-pastelPink-500", "scale-105", "z-10");
+          }
+        }
+      }
+
+      const infoPanel = document.getElementById("fase-info-panel");
+      infoPanel.innerHTML = `
+        <div class="flex items-center justify-between border-b pb-1">
+          <strong class="text-xs md:text-sm text-pastelPink-500">${data.nombre}</strong>
+          <span class="text-[8px] md:text-[10px] font-extrabold uppercase text-slate-400">${data.estacion}</span>
+        </div>
+        <p class="text-[9px] md:text-[10px] text-slate-500 font-semibold bg-slate-50 p-1 md:p-1.5 rounded-md md:rounded-lg border border-slate-100">${data.rango}</p>
+        <div>
+          <h6 class="font-extrabold text-[8px] md:text-[10px] text-pastelPink-400 uppercase">🧬 ¿Qué sucede en tu cuerpo?</h6>
+          <p class="font-medium text-[10px] md:text-xs text-slate-600 mt-0.5 leading-relaxed">${data.bio}</p>
+        </div>
+        <div>
+          <h6 class="font-extrabold text-[8px] md:text-[10px] text-pastelPink-400 uppercase">🧠 ¿Cómo te puedes sentir?</h6>
+          <p class="font-medium text-[10px] md:text-xs text-slate-600 mt-0.5 leading-relaxed">${data.emocional}</p>
+        </div>
+        <div class="bg-pastelPink-100 p-2 md:p-2.5 rounded-lg md:rounded-xl border border-pastelPink-200 mt-1">
+          <h6 class="font-bold text-[10px] md:text-xs text-pastelPink-600">💖 Ritual sugerido:</h6>
+          <p class="font-bold italic text-[9px] md:text-[11px] text-slate-700 mt-0.5">${data.mimo}</p>
+        </div>
+      `;
+
+      playBeep(400 + (index * 80), 'sine', 0.12, 0.15);
+    }
+
+    // --- LÓGICA DE LA FICHA DE HOY ---
+    function seleccionarFichaClima(clima) {
+      fichaClimaSeleccionado = clima;
+      const climas = ['sunny', 'cloudy', 'rainy', 'windy'];
+      climas.forEach(c => {
+        const btn = document.getElementById(`f-clima-${c}`);
+        if (c === clima) {
+          btn.className = "py-1.5 px-1 bg-pastelPink-500 border-2 border-pastelPink-600 rounded-lg text-center font-extrabold text-[9px] md:text-[10px] text-white scale-105 shadow transition-all";
+        } else {
+          btn.className = "py-1.5 px-1 bg-white hover:bg-pastelPink-50 border border-slate-200 rounded-lg text-center font-bold text-[9px] md:text-[10px] text-slate-700 transition-all";
+        }
+      });
+      playPopSound();
+    }
+
+    function actualizarFichaSticker() {
+      const select = document.getElementById("ficha-sticker-select");
+      const preview = document.getElementById("ficha-sticker-preview");
+      preview.innerText = select.value;
+    }
+
+    // --- LÓGICA DEL JUEGO: MEMORAMA DE AUTOCUIDADO ---
+    let memoramaHasFlippedCard = false;
+    let memoramaLockBoard = false;
+    let memoramaFirstCard, memoramaSecondCard;
+    let memoramaMatches = 0;
+    let memoramaMoves = 0;
+    const memoramaTotalPairs = 13; // 8 + 5 = 13 pares (26 cartas en total)
+    const memoramaMaxMoves = 35; // Límite ampliado para hacerlo justo con más cartas
+
+    function abrirMemorama() {
+      document.getElementById("modal-premio-stickers").classList.remove("hidden");
+      iniciarMemorama();
+    }
+
+    function cerrarMemorama() {
+      document.getElementById("modal-premio-stickers").classList.add("hidden");
+    }
+
+    function iniciarMemorama() {
+      // Reiniciar variables
+      memoramaMatches = 0;
+      memoramaMoves = 0;
+      memoramaHasFlippedCard = false;
+      memoramaLockBoard = false;
+      memoramaFirstCard = null;
+      memoramaSecondCard = null;
+
+      actualizarMemoramaStats();
+
+      // 1. Seleccionar 13 stickers al azar de la gran base de datos
+      let shuffledDb = [...stickersDatabase].sort(() => 0.5 - Math.random());
+      let selectedStickers = shuffledDb.slice(0, memoramaTotalPairs);
+      
+      // 2. Duplicarlos para hacer pares y barajar todas las cartas
+      let cards = [...selectedStickers, ...selectedStickers];
+      cards.sort(() => 0.5 - Math.random());
+
+      const board = document.getElementById("memorama-board");
+      board.innerHTML = "";
+
+      // 3. Crear las cartas en el HTML
+      cards.forEach((sticker) => {
+        const item = document.createElement("div");
+        item.dataset.name = sticker.id;
+        item.className = `perspective-1000 w-full aspect-square cursor-pointer rounded-xl md:rounded-2xl group`;
+        
+        item.innerHTML = `
+          <div class="memorama-inner w-full h-full relative transition-transform duration-500 transform-style-preserve-3d shadow-sm rounded-xl md:rounded-2xl">
+            <!-- Reverso de la carta (Fondo Rosa que se ve primero) -->
+            <div class="absolute w-full h-full bg-pastelPink-200 border-2 border-pastelPink-300 rounded-xl md:rounded-2xl flex items-center justify-center backface-hidden shadow-inner hover:bg-pastelPink-300 transition-colors">
+              <span class="text-xl md:text-3xl opacity-50">🌸</span>
+            </div>
+            <!-- Frente de la carta (El emoji escondido) -->
+            <div class="absolute w-full h-full ${sticker.color} border-2 rounded-xl md:rounded-2xl flex flex-col items-center justify-center backface-hidden rotate-y-180 p-0.5 md:p-1">
+              <span class="text-2xl md:text-4xl drop-shadow-sm">${sticker.emoji}</span>
+              <span class="text-[5.5px] md:text-[8px] font-extrabold leading-tight font-cozy block mt-0.5 uppercase tracking-wide px-0.5 text-center select-none text-slate-700 truncate w-full">${sticker.text}</span>
+            </div>
+          </div>
+        `;
+
+        item.onclick = () => flipMemoramaCard(item, sticker);
+        board.appendChild(item);
+      });
+    }
+
+    function flipMemoramaCard(card, sticker) {
+      if (memoramaLockBoard) return; // Evita voltear más de 2 al mismo tiempo
+      if (card === memoramaFirstCard) return; // Evita doble clic en la misma carta
+
+      // Animación de voltear carta 3D
+      card.querySelector('.memorama-inner').classList.add("flip-active");
+      playPopSound();
+
+      if (!memoramaHasFlippedCard) {
+        // Es la primera carta que se voltea en el turno
+        memoramaHasFlippedCard = true;
+        memoramaFirstCard = card;
+        return;
+      }
+
+      // Es la segunda carta
+      memoramaSecondCard = card;
+      memoramaMoves++;
+      actualizarMemoramaStats();
+      comprobarMatchMemorama();
+    }
+
+    function comprobarMatchMemorama() {
+      let isMatch = memoramaFirstCard.dataset.name === memoramaSecondCard.dataset.name;
+
+      if (isMatch) {
+        desactivarCartasMemorama();
+      } else {
+        // MARCAR ERROR: Sonido de fallo y vibración
+        playFailureSound();
+        memoramaFirstCard.classList.add("animate-shake");
+        memoramaSecondCard.classList.add("animate-shake");
+        desvoltearCartasMemorama();
+      }
+    }
+
+    function desactivarCartasMemorama() {
+      memoramaFirstCard.onclick = null;
+      memoramaSecondCard.onclick = null;
+      
+      // Pequeño efecto visual de victoria en las cartas que hacen par
+      memoramaFirstCard.classList.add("animate-pulse");
+      memoramaSecondCard.classList.add("animate-pulse");
+      
+      memoramaMatches++;
+      actualizarMemoramaStats();
+      
+      setTimeout(() => playSuccessSound(), 200);
+
+      // Revisar si ya encontró todos los pares
+      if (memoramaMatches === memoramaTotalPairs) {
+        setTimeout(() => {
+          showCuteToast(`¡Felicidades! Terminaste el memorama en ${memoramaMoves} movimientos 🎉`);
+          activarLluviaConfeti();
+        }, 600);
+      } else if (memoramaMoves >= memoramaMaxMoves) {
+        setTimeout(() => {
+          showCuteToast(`¡Oh no! Se agotaron tus ${memoramaMaxMoves} movimientos 💔. ¡Vamos de nuevo!`);
+          playFailureSound();
+          iniciarMemorama();
+        }, 1000);
+      }
+
+      resetMemoramaBoard();
+    }
+
+    function desvoltearCartasMemorama() {
+      memoramaLockBoard = true; // Bloquea el tablero mientras se voltean hacia atrás
+
+      setTimeout(() => {
+        // Quitar la clase de vibración de error
+        memoramaFirstCard.classList.remove("animate-shake");
+        memoramaSecondCard.classList.remove("animate-shake");
+        // Voltear las cartas de regreso
+        memoramaFirstCard.querySelector('.memorama-inner').classList.remove("flip-active");
+        memoramaSecondCard.querySelector('.memorama-inner').classList.remove("flip-active");
+        resetMemoramaBoard();
+
+        // Revisar límite de movimientos si falló el par
+        if (memoramaMoves >= memoramaMaxMoves) {
+          showCuteToast(`¡Oh no! Se agotaron tus ${memoramaMaxMoves} movimientos 💔. ¡Vamos de nuevo!`);
+          playFailureSound();
+          iniciarMemorama();
+        }
+      }, 1000); // 1 segundo de espera para memorizarlas y ver el error
+    }
+
+    function resetMemoramaBoard() {
+      [memoramaHasFlippedCard, memoramaLockBoard] = [false, false];
+      [memoramaFirstCard, memoramaSecondCard] = [null, null];
+    }
+
+    function actualizarMemoramaStats() {
+      document.getElementById("memorama-stats").innerText = `Movimientos: ${memoramaMoves}/${memoramaMaxMoves} | Pares: ${memoramaMatches}/${memoramaTotalPairs}`;
+    }
+
+    // --- NUEVO MOTOR DIRECTO DE DESCARGA PDF EXACTA (NATIVO EN PANTALLA) ---
+    function descargarRecurso(tipo) {
+      if (typeof html2pdf === 'undefined') {
+        showCuteToast("Cargando el motor mágico de PDF, intenta de nuevo en un segundito...");
+        return;
+      }
+
+      let elementId = "";
+      let filename = "";
+      let orientacion = 'portrait';
+      let margen = 10; // Margen por defecto para Ficha y Stickers
+
+      if (tipo === 'stickers') {
+        elementId = "stickers-grid";
+        filename = `Planilla_40_Stickers_MenstruAccion.pdf`;
+        orientacion = 'portrait';
+      } else {
+        return; // Prevenir errores si se llama a un tipo inexistente
+      }
+
+      const element = document.getElementById(elementId);
+      if (!element) return;
+
+      showCuteToast(`Preparando tu descarga en PDF, ¡espera un momento! 🪄`);
+
+      // Guardar estilos originales por si necesitamos alterarlos en pantalla
+      let oldMaxHeight = element.style.maxHeight;
+      let oldOverflow = element.style.overflowY;
+      let oldHeight = element.style.height;
+      
+      if (tipo === 'stickers') {
+        element.style.maxHeight = 'none';
+        element.style.overflowY = 'visible';
+        element.style.height = 'auto';
+      }
+
+      // Opciones ultra-fidelidad para HTML2PDF
+      const opt = {
+        margin:       margen,
+        filename:     filename,
+        image:        { type: 'jpeg', quality: 1 },
+        html2canvas:  { 
+          scale: 2, 
+          useCORS: true, 
+          backgroundColor: '#ffffff',
+          scrollY: 0,
+          windowWidth: 1200, // Fuerza un ancho de pantalla amplio para evitar que colapse en celulares
+          onclone: function(clonedDoc) {
+            // TRUCO MÁGICO: Forzamos proporciones y anulamos el overflow oculto del modal en la copia virtual.
+            // Esto garantiza al 100% que el PDF nunca salga en blanco.
+            const clonedElement = clonedDoc.getElementById(elementId);
+            if (clonedElement) {
+              clonedElement.style.position = 'relative';
+              clonedElement.style.transform = 'none';
+              
+              if (tipo === 'ficha') {
+                clonedElement.style.width = '650px'; // Ancho forzado para lectura perfecta
+                clonedElement.style.margin = '0 auto';
+                clonedElement.style.overflow = 'visible';
+              } else if (tipo === 'stickers') {
+                clonedElement.style.width = '800px';
+                clonedElement.style.overflow = 'visible';
+                clonedElement.style.maxHeight = 'none';
+              }
+            }
+          }
+        },
+        jsPDF:        { unit: 'mm', format: 'letter', orientation: orientacion }
+      };
+
+      // Inicia la conversión mágica al vuelo
+      html2pdf().set(opt).from(element).save().then(() => {
+        showCuteToast(`¡Tu descarga se completó perfectamente! 🌸`);
+        
+        // Restaurar estilos en pantalla
+        if (tipo === 'stickers') {
+          element.style.maxHeight = oldMaxHeight;
+          element.style.overflowY = oldOverflow;
+          element.style.height = oldHeight;
+        }
+      }).catch(err => {
+        console.error(err);
+        showCuteToast(`Hubo un error al crear tu PDF.`);
+      });
+    }
+
+    // --- LÓGICA DE BITÁCORA VIRTUAL Y PORTAPAPELES ---
+    const climasMap = {
+      'sunny': '☀️ Alegre / Con Energía',
+      'cloudy': '☁️ Sensible / Introspectiva',
+      'rainy': '🌧️ Cansada / Necesito Mimos',
+      'windy': '🍃 Cólicos / Incomodidad'
+    };
+
+    function guardarEnBitacora() {
+      const name = document.getElementById("ficha-name").value.trim() || playerName;
+      const date = new Date().toLocaleDateString('es-MX', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+      
+      const mimos = [];
+      if(document.getElementById("mimo-1").checked) mimos.push("💧 Tomar agua y comer rico");
+      if(document.getElementById("mimo-2").checked) mimos.push("🛏️ Descansar temprano");
+      if(document.getElementById("mimo-3").checked) mimos.push("🧘‍♀️ Ejercicios de respiración");
+      if(document.getElementById("mimo-4").checked) mimos.push("🎨 Arte, lectura o juego");
+
+      const stickerSelect = document.getElementById("ficha-sticker-select");
+      const stickerText = stickerSelect.options[stickerSelect.selectedIndex].text;
+
+      const entry = {
+        id: Date.now(),
+        date: date,
+        name: name,
+        clima: climasMap[fichaClimaSeleccionado],
+        mimos: mimos,
+        sticker: stickerText
+      };
+
+      let bitacora = JSON.parse(localStorage.getItem('menstruaccion_bitacora')) || [];
+      bitacora.unshift(entry); // Añadir al inicio de la lista
+      localStorage.setItem('menstruaccion_bitacora', JSON.stringify(bitacora));
+
+      renderBitacora();
+      showCuteToast("¡Tu ficha se guardó en tu Bitácora Virtual! 📖✨");
+      playPopSound();
+    }
+
+    function renderBitacora() {
+      const list = document.getElementById("bitacora-list");
+      if (!list) return;
+      
+      let bitacora = JSON.parse(localStorage.getItem('menstruaccion_bitacora')) || [];
+      
+      if (bitacora.length === 0) {
+        list.innerHTML = `<p class="text-[10px] md:text-xs text-slate-400 italic text-center py-4 md:py-6 bg-slate-50 rounded-xl border border-dashed border-slate-200">Tu bitácora está vacía. ¡Guarda tu primer registro de cuidado hoy!</p>`;
+        return;
+      }
+
+      list.innerHTML = bitacora.map(entry => `
+        <div class="bg-pastelLila-50 border border-pastelLila-200 rounded-xl p-2.5 md:p-3 flex flex-col gap-1 md:gap-1.5 relative group shadow-sm transition-all hover:bg-pastelLila-100">
+          <button onclick="borrarEntradaBitacora(${entry.id})" class="absolute top-2 right-2 text-pastelLila-300 hover:text-red-400 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity" title="Borrar entrada"><i class="fa-solid fa-trash-can text-xs"></i></button>
+          <div class="flex justify-between items-center border-b border-pastelLila-200 pb-1 md:pb-1.5 mb-0.5 md:mb-1">
+            <span class="text-[9px] md:text-[10px] font-extrabold text-pastelLila-600 uppercase tracking-wider">${entry.date}</span>
+            <span class="text-[9px] md:text-[10px] font-bold text-slate-700 bg-white px-2 py-0.5 rounded-full shadow-sm">${entry.clima}</span>
+          </div>
+          <p class="text-[10px] md:text-[11px] text-slate-600 font-medium leading-snug">
+            <strong class="text-pastelLila-500">Mis mimos:</strong> ${entry.mimos.length > 0 ? entry.mimos.join(', ') : 'Ninguno marcado'}
+          </p>
+          <p class="text-[10px] md:text-[11px] text-slate-600 font-medium leading-snug">
+            <strong class="text-pastelLila-500">Sticker:</strong> ${entry.sticker}
+          </p>
+        </div>
+      `).join('');
+    }
+
+    function borrarEntradaBitacora(id) {
+      let bitacora = JSON.parse(localStorage.getItem('menstruaccion_bitacora')) || [];
+      bitacora = bitacora.filter(e => e.id !== id);
+      localStorage.setItem('menstruaccion_bitacora', JSON.stringify(bitacora));
+      renderBitacora();
+      playPopSound();
+    }
+
+    function copiarResumenFicha() {
+      const date = new Date().toLocaleDateString('es-MX', { weekday: 'long', month: 'long', day: 'numeric' });
+      const clima = climasMap[fichaClimaSeleccionado];
+      
+      const mimos = [];
+      if(document.getElementById("mimo-1").checked) mimos.push("💧 Agua/Comida");
+      if(document.getElementById("mimo-2").checked) mimos.push("🛏️ Descanso");
+      if(document.getElementById("mimo-3").checked) mimos.push("🧘‍♀️ Ejercicio");
+      if(document.getElementById("mimo-4").checked) mimos.push("🎨 Arte/Juego");
+      
+      const stickerSelect = document.getElementById("ficha-sticker-select");
+      const stickerText = stickerSelect.options[stickerSelect.selectedIndex].text;
+
+      const texto = `🌸 Mi Diario de Autocuidado (${date})\n\n🚦 Mi clima emocional: ${clima}\n🎁 Mis regalos de hoy: ${mimos.length > 0 ? mimos.join(', ') : 'Descansar y fluir'}\n✨ Sticker del día: ${stickerText}\n\n- Generado en MenstruAcción 🩸`;
+
+      // Intentar copiar usando la API del Portapapeles (con fallback por seguridad)
+      try {
+        const textArea = document.createElement("textarea");
+        textArea.value = texto;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        showCuteToast("¡Resumen copiado para pegarlo en tu diario o chat! 📋💕");
+        playPopSound();
+      } catch (err) {
+        showCuteToast("No se pudo copiar el texto. Intenta usar la Bitácora.");
+      }
+    }
+
+    // --- EL COMPROMISO DEL CERTIFICADO ---
+    function elegirCompromiso(id) {
+      const map = {
+        1: "Prometo escuchar a mi cuerpo y descansar si me siento cansada.",
+        2: "Prometo hablar de mi menstruación con naturalidad y sin vergüenza.",
+        3: "Prometo ser paciente con mis emociones en cada fase de mi ciclo."
+      };
+      selectedCommitmentText = map[id];
+      document.getElementById("diploma-commitment").innerText = `"${selectedCommitmentText}"`;
+      showCuteToast("¡Compromiso seleccionado!");
+    }
+
+    function aplicarCompromisoPersonalizado() {
+      const txt = document.getElementById("custom-commitment").value.trim();
+      if (txt) {
+        selectedCommitmentText = txt;
+        document.getElementById("diploma-commitment").innerText = `"${selectedCommitmentText}"`;
+        showCuteToast("¡Tu compromiso ha sido aplicado!");
+      } else {
+        showCuteToast("Escribe algo lindo antes de guardarlo.");
+      }
+    }
+
+    // --- CARGAR CORAZONES DE VIDA (MODO DESAFÍO) ---
+    function renderCorazones() {
+      const container = document.getElementById("hearts-container");
+      container.innerHTML = "";
+      for (let i = 0; i < 3; i++) {
+        if (i < lives) {
+          container.innerHTML += `<i class="fa-solid fa-heart animate-pulse"></i>`;
+        } else {
+          container.innerHTML += `<i class="fa-regular fa-heart opacity-40"></i>`;
+        }
+      }
+    }
+
+    function renderEscalaPremios() {
+      const list = document.getElementById("prizes-list");
+      list.innerHTML = "";
+      
+      // Paletas de colores dinámicos para la escala
+      const pastelStyles = [
+        "bg-pastelPink-100 border border-pastelPink-200", 
+        "bg-pastelMint-100 border border-pastelMint-200", 
+        "bg-pastelLila-100 border border-pastelLila-200", 
+        "bg-pastelPeach-100 border border-pastelPeach-200"
+      ];
+      const strongStyles = [
+        "bg-pastelPink-500 border border-pastelPink-600", 
+        "bg-pastelMint-500 border border-pastelMint-600", 
+        "bg-pastelLila-500 border border-pastelLila-600", 
+        "bg-pastelPeach-500 border border-pastelPeach-600"
+      ];
+
+      for (let i = questionsDatabase.length - 1; i >= 0; i--) {
+        const num = i + 1;
+        const isActive = (i === currentQuestionIndex);
+        const isCompleted = (i < currentQuestionIndex);
+        const colorIndex = i % 4; // Rota entre 0, 1, 2, 3
+        
+        let label = `Pregunta ${num}`;
+        let icon = "🌸";
+
+        if (num === 15) { label = "Maestra del Autocuidado 👑"; icon = "👑"; }
+        else if (num === 12) { label = "Experta ⭐"; icon = "⭐"; }
+        else if (num === 5) { label = "Conocedora 💡"; icon = "💡"; }
+
+        const div = document.createElement("div");
+        
+        if (isActive) {
+          // Pregunta actual (Fuerte y resaltada)
+          div.className = `flex items-center gap-2 p-2 ${strongStyles[colorIndex]} text-white rounded-xl font-extrabold text-xs shadow transform scale-105 transition-all`;
+        } else if (isCompleted) {
+          // Preguntas ya respondidas (Pastel, un poco transparentes)
+          div.className = `flex items-center gap-2 p-1.5 ${pastelStyles[colorIndex]} text-slate-700 opacity-60 rounded-xl font-bold text-[10px] transition-all`;
+        } else {
+          // Preguntas por responder (Pastel brillante, texto oscuro para lectura fácil)
+          div.className = `flex items-center gap-2 p-1.5 ${pastelStyles[colorIndex]} text-slate-700 rounded-xl font-semibold text-[10px] transition-all shadow-sm`;
+        }
+
+        div.innerHTML = `
+          <span class="w-5 h-5 rounded-full bg-white bg-opacity-40 flex items-center justify-center text-[10px]">${icon}</span>
+          <span class="truncate">${label}</span>
+        `;
+        list.appendChild(div);
+      }
+    }
+
+    function getInsigniaForQuestion(index) {
+      for (let border of levelBorders) {
+        if (index >= border.minQ) {
+          return `${border.icon} ${border.text}`;
+        }
+      }
+      return "🌸 Exploradora";
+    }
+
+    function habilitarComodinesUI() {
+      const j50 = document.getElementById("joker-5050");
+      const jAliada = document.getElementById("joker-aliada");
+      const jOraculo = document.getElementById("joker-oraculo");
+
+      j50.className = "py-1.5 md:py-2.5 px-1 md:px-2 bg-pastelPeach-100 border border-pastelPeach-300 rounded-lg md:rounded-xl font-bold text-[9px] md:text-xs text-slate-700 hover:bg-pastelPeach-200 transition-all flex flex-col items-center justify-center gap-0.5 shadow-sm text-center";
+      j50.onclick = usar5050;
+
+      jAliada.className = "py-1.5 md:py-2.5 px-1 md:px-2 bg-pastelLila-100 border border-pastelLila-300 rounded-lg md:rounded-xl font-bold text-[9px] md:text-xs text-slate-700 hover:bg-pastelLila-200 transition-all flex flex-col items-center justify-center gap-0.5 shadow-sm text-center";
+      jAliada.onclick = usarAliada;
+
+      jOraculo.className = "py-1.5 md:py-2.5 px-1 md:px-2 bg-pastelMint-100 border border-pastelMint-300 rounded-lg md:rounded-xl font-bold text-[9px] md:text-xs text-slate-700 hover:bg-pastelMint-200 transition-all flex flex-col items-center justify-center gap-0.5 shadow-sm text-center";
+      jOraculo.onclick = usarOraculo;
+    }
+
+    // --- CARITA DE GOTITA SABIA DINÁMICA ---
+    function actualizarGotitaCara(estado) {
+      const mouth = document.getElementById("gotita-mouth");
+      const eyes = document.getElementById("gotita-eyes");
+      if (!mouth || !eyes) return;
+
+      if (estado === 'correct') {
+        eyes.innerHTML = `
+          <path d="M78 120Q85 112 92 120" stroke="#3D2A2E" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+          <path d="M108 120Q115 112 122 120" stroke="#3D2A2E" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+        `;
+        mouth.setAttribute("d", "M94 130Q100 142 106 130 Z");
+        mouth.setAttribute("fill", "#FF8691");
+      } else if (estado === 'incorrect') {
+        eyes.innerHTML = `
+          <path d="M78 120Q85 125 92 120" stroke="#3D2A2E" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <path d="M108 120Q115 125 122 120" stroke="#3D2A2E" stroke-width="4" stroke-linecap="round" fill="none"/>
+        `;
+        mouth.setAttribute("d", "M96 134Q100 128 104 134");
+        mouth.setAttribute("fill", "none");
+      } else {
+        eyes.innerHTML = `
+          <circle cx="85" cy="120" r="7" fill="#3D2A2E"/>
+          <circle cx="115" cy="120" r="7" fill="#3D2A2E"/>
+          <circle cx="83" cy="117" r="2.5" fill="white"/>
+          <circle cx="113" cy="117" r="2.5" fill="white"/>
+        `;
+        mouth.setAttribute("d", "M96 130Q100 134 104 130");
+        mouth.setAttribute("fill", "none");
+      }
+    }
+
+    function cambiarBurbujaGotita(text) {
+      const bubble = document.getElementById("gotita-bubble");
+      if (bubble) bubble.innerText = text;
+    }
+
+    function abrirGuiaDocente() {
+      document.getElementById("modal-guia-docente").classList.remove("hidden");
+    }
+    
+    function cerrarGuiaDocente() {
+      document.getElementById("modal-guia-docente").classList.add("hidden");
+    }
+
+    function reiniciarJuegoCompleto() {
+      if (window.speechSynthesis) window.speechSynthesis.cancel();
+      document.getElementById("header-stats").classList.add("hidden");
+      document.getElementById("screen-game").classList.add("hidden");
+      document.getElementById("screen-victory").classList.add("hidden");
+      document.getElementById("screen-intro").classList.remove("hidden");
+      document.getElementById("player-name").value = "";
+      playerName = "Exploradora";
+      playPopSound();
+    }
+
+    // --- LLUVIA DE CONFETI EN CANVAS NATIVO ---
+    let confettiId = null;
+    function activarLluviaConfeti() {
+      const canvas = document.getElementById("victory-confetti");
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+      
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const colors = ['#FFD6D9', '#FFAEB5', '#E8DFF5', '#DDF9F6', '#FCEADE', '#F582A8'];
+      const particles = [];
+      const count = 120;
+
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height - canvas.height,
+          size: Math.random() * 8 + 4,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          speedY: Math.random() * 3 + 2,
+          speedX: Math.random() * 2 - 1,
+          rot: Math.random() * 360,
+          rotSpeed: Math.random() * 4 - 2
+        });
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate((p.rot * Math.PI) / 180);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+          ctx.restore();
+
+          p.y += p.speedY;
+          p.x += p.speedX;
+          p.rot += p.rotSpeed;
+
+          if (p.y > canvas.height) {
+            p.y = -20;
+            p.x = Math.random() * canvas.width;
+          }
+        });
+        confettiId = requestAnimationFrame(draw);
+      }
+
+      draw();
+
+      setTimeout(() => {
+        cancelAnimationFrame(confettiId);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }, 12000);
+    }
+
+    // Carga de voces nativas
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.getVoices();
+      window.speechSynthesis.onvoiceschanged = () => {
+        window.speechSynthesis.getVoices();
+      };
+    }
+
+    window.onload = function () {
+      seleccionarFichaClima('sunny');
+    }
+  </script>
+</body>
+</html>
